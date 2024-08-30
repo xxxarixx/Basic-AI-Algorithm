@@ -10,7 +10,7 @@ namespace Astar.Brain
         [SerializeField] private float visNodeScale = 0.5f;
         [SerializeField]private Color walkableGridCol = Color.white;
         [SerializeField]private Color blokedGridCol = Color.white;
-        [SerializeField] private Vector2Int sampleObstacleLocation = new Vector2Int(); 
+        [SerializeField] private Vector2Int sampleObstacleLocation = new Vector2Int();
         private void OnValidate()
         {
             astarBrain = GetComponent<AstarBrain>();

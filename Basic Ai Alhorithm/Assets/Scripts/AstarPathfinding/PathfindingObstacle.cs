@@ -1,6 +1,7 @@
 using Astar.Brain;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using System.Text;
 using UnityEngine;
 namespace Astar.pathfinding
@@ -9,7 +10,8 @@ namespace Astar.pathfinding
     {
         private Vector2Int[] obstacleEdges;
         private Color obstacleGizmosCol = Color.yellow;
-        public Vector3 offsetProjection = new Vector3();
+        public Vector3 offsetScaleProjection = new Vector3();
+        [SerializeField] private Vector3 offsetProjection;
         [ContextMenu(nameof(ProjectObstacleOnGrid))]
         public void ProjectObstacleOnGrid()
         {
@@ -22,30 +24,35 @@ namespace Astar.pathfinding
             };
             Vector2Int leftBottom = obstacleEdges[2];
             Vector2Int rightTop = obstacleEdges[1];
-            for (int x = leftBottom.x; x <= rightTop.x; x++)
+            var maxX = GetObstaclePathfindingSize().x % 2 == 1 ? rightTop.x : rightTop.x + 1;
+            var maxZ = GetObstaclePathfindingSize().x % 2 == 1 ? rightTop.y : rightTop.y + 1;
+            for (int x = leftBottom.x; x < maxX; x++)
             {
-                for (int z = leftBottom.y; z <= rightTop.y; z++)
+                for (int z = leftBottom.y; z < maxZ; z++)
                 {
                     //these are obstacles
                     AstarBrain.instance.AddObstacle(new Vector2Int(x, z));
                 }
             }
         }
+        private Vector3Int GetObstaclePathfindingSize()
+        {
+            return new Vector3Int(Mathf.RoundToInt(transform.localScale.x + offsetScaleProjection.x) / 2, 0, Mathf.RoundToInt((transform.localScale.z + offsetScaleProjection.z) / 2));
+        }
         private Vector2Int GetObstacleEdge(Vector2Int edgeDirection)
         {
             edgeDirection = new Vector2Int(Mathf.Clamp(edgeDirection.x, -1, 1), Mathf.Clamp(edgeDirection.y, -1, 1));
-            Vector2Int obstacleGridCenter = AstarBrain.instance.WorldToGrid(transform.position);
-            Debug.Log(obstacleGridCenter);
-            return new Vector2Int(obstacleGridCenter.x + edgeDirection.x * Mathf.RoundToInt( (transform.localScale.x + offsetProjection.x) / 2),
-                                obstacleGridCenter.y + edgeDirection.y * Mathf.RoundToInt( (transform.localScale.y + offsetProjection.y) / 2));
+            Vector2Int obstacleGridCenter = AstarBrain.instance.WorldToGrid(transform.position + offsetProjection);
+            return new Vector2Int(obstacleGridCenter.x + edgeDirection.x * Mathf.RoundToInt( (transform.localScale.x + offsetScaleProjection.x) / 2),
+                                obstacleGridCenter.y + edgeDirection.y * Mathf.RoundToInt( (transform.localScale.z + offsetScaleProjection.z) / 2));
         }
 
         private void OnDrawGizmosSelected()
         {
-            Gizmos.DrawWireCube(transform.position, new Vector3(
-                Mathf.RoundToInt(transform.localScale.x),
-                transform.localScale.y,
-                Mathf.RoundToInt(transform.localScale.z)) + offsetProjection);
+            Gizmos.DrawWireCube(transform.position + offsetProjection, new Vector3(
+                Mathf.RoundToInt(transform.localScale.x + offsetScaleProjection.x),
+                transform.localScale.y + offsetScaleProjection.y,
+                Mathf.RoundToInt(transform.localScale.z + offsetScaleProjection.z)));
         }
     }
 }
