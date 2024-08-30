@@ -186,6 +186,71 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &5037211241639047024
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8451530768520405407}
+  - component: {fileID: 5389133038811441588}
+  - component: {fileID: 4785277769965862504}
+  m_Layer: 0
+  m_Name: AstarBrain
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8451530768520405407
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5037211241639047024}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2082276659742621710}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5389133038811441588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5037211241639047024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 855fe2781cf7e644b92ff9e3bbce0eaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mapSize: {x: 99, y: 1, z: 100}
+  _center: {x: 1.5, y: 0.46, z: -2.41}
+  debugModeOn: 1
+  scanOnValidate: 1
+--- !u!114 &4785277769965862504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5037211241639047024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 918a8de72ef79854f8364941afed5ec0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visNodeScale: 0.09
+  walkableGridCol: {r: 0.33962262, g: 0.29316482, b: 0.29316482, a: 1}
+  blokedGridCol: {r: 0, g: 0, b: 0, a: 1}
+  sampleObstacleLocation: {x: 5, y: 5}
 --- !u!1 &6714988458478483273
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,6 +283,7 @@ Transform:
   - {fileID: 6382191347867302299}
   - {fileID: 2663465992721420051}
   - {fileID: 3429120990039959445}
+  - {fileID: 8451530768520405407}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7941261283613398085
