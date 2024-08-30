@@ -128,7 +128,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1797775484}
+    m_TransformParent: {fileID: 876478633}
     m_Modifications:
     - target: {fileID: 4753517337531300582, guid: 8806c9ac002d365488193941acce0496,
         type: 3}
@@ -148,7 +148,7 @@ PrefabInstance:
     - target: {fileID: 4753517337531300582, guid: 8806c9ac002d365488193941acce0496,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.93
+      value: 4.37
       objectReference: {fileID: 0}
     - target: {fileID: 4753517337531300582, guid: 8806c9ac002d365488193941acce0496,
         type: 3}
@@ -158,7 +158,7 @@ PrefabInstance:
     - target: {fileID: 4753517337531300582, guid: 8806c9ac002d365488193941acce0496,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.99
+      value: 10.16
       objectReference: {fileID: 0}
     - target: {fileID: 4753517337531300582, guid: 8806c9ac002d365488193941acce0496,
         type: 3}
@@ -200,6 +200,11 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7680010144105033890, guid: 8806c9ac002d365488193941acce0496,
+        type: 3}
+      propertyPath: offsetProjection.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8480187856487404493, guid: 8806c9ac002d365488193941acce0496,
         type: 3}
       propertyPath: m_Name
@@ -222,6 +227,39 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 237602282504227294}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &876478632
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 876478633}
+  m_Layer: 0
+  m_Name: ObstacleFolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &876478633
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876478632}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 594253727}
+  - {fileID: 1993129796}
+  m_Father: {fileID: 1797775484}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &918549566
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,8 +397,7 @@ Transform:
   m_Children:
   - {fileID: 918549570}
   - {fileID: 796629476}
-  - {fileID: 1993129796}
-  - {fileID: 594253727}
+  - {fileID: 876478633}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1993129796 stripped
@@ -500,6 +537,31 @@ PrefabInstance:
       propertyPath: visYPos
       value: 4.42
       objectReference: {fileID: 0}
+    - target: {fileID: 5389133038811441588, guid: 0d67d38b1499c174094ba7f3f47b4f90,
+        type: 3}
+      propertyPath: _center.x
+      value: 3.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5389133038811441588, guid: 0d67d38b1499c174094ba7f3f47b4f90,
+        type: 3}
+      propertyPath: _center.y
+      value: 1.89
+      objectReference: {fileID: 0}
+    - target: {fileID: 5389133038811441588, guid: 0d67d38b1499c174094ba7f3f47b4f90,
+        type: 3}
+      propertyPath: _center.z
+      value: -5.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5389133038811441588, guid: 0d67d38b1499c174094ba7f3f47b4f90,
+        type: 3}
+      propertyPath: obstacleFolder
+      value: 
+      objectReference: {fileID: 876478633}
+    - target: {fileID: 5389133038811441588, guid: 0d67d38b1499c174094ba7f3f47b4f90,
+        type: 3}
+      propertyPath: scanOnValidate
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6714988458478483273, guid: 0d67d38b1499c174094ba7f3f47b4f90,
         type: 3}
       propertyPath: m_Name
@@ -521,7 +583,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1797775484}
+    m_TransformParent: {fileID: 876478633}
     m_Modifications:
     - target: {fileID: 4753517337531300582, guid: 8806c9ac002d365488193941acce0496,
         type: 3}
