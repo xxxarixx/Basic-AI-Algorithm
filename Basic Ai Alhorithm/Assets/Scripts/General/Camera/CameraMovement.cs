@@ -28,6 +28,7 @@ public class CameraMovement : MonoBehaviour
         {
             newZoomValue = 10f;
         }
+        
     }
     private void OnEnable()
     {

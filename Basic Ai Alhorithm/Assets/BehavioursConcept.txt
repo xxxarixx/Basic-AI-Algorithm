@@ -1,0 +1,9 @@
+NPC:
+has house area with chest that contains crops
+
+behaviour priority:
+IF enemy near: KNOCK BACK ENEMY => if crop not planted: PLANT => if crop ready for gather: GATHER => if inventory has crop go to deploy crops => repeat
+
+ENEMY:
+
+Go for land with crop => eat crop => repeat

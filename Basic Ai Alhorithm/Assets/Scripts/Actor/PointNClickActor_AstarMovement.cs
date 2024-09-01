@@ -6,6 +6,7 @@ using UnityEngine;
 using DG;
 using DG.Tweening;
 using System.Linq;
+using static DebugHelper.DebugHelper;
 namespace Actor
 {
     public class PointNClickActor_AstarMovement : MonoBehaviour
@@ -29,6 +30,7 @@ namespace Actor
         }
         private void OnPrimaryBtnTap(Vector3 mouseScreenPos, Vector3 mouseWorldPos)
         {
+            TextPopup(transform.position + new Vector3(0f,10f,0f),"started path", Color.white,duration:2f);
             pathfinding.StartPath(transform.position, mouseWorldPos,
             OnFailed:() =>
             {

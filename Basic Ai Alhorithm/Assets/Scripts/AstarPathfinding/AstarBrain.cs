@@ -3,7 +3,8 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static DebugHelper.DebugHelper;
+using System;
+using System.Diagnostics;
 namespace Astar.Brain
 {
     /// <summary>
@@ -87,14 +88,14 @@ namespace Astar.Brain
             grid.Clear();
             lastScanData = new ScanData(center: center, mapSize: mapSize);
             if (debugModeOn) 
-                Debug.Log("Started setuping Astar");
+                print("Started setuping Astar");
             DebugHowLongActionTake(action: () =>
             {
                 SetupMap();
                 AutoAddObstacles();
             }, out float elapesedTimeInMs);
-            if (debugModeOn) 
-                Debug.Log($"Done setuping Astar in {elapesedTimeInMs} ms");
+            if (debugModeOn)
+                print($"Done setuping Astar in {elapesedTimeInMs} ms");
         }
         /// <summary>
         /// Recreate entire map grid
@@ -182,6 +183,15 @@ namespace Astar.Brain
             if (IsInMapRange(xz + new Vector2Int(-1, 0))) nodes.Add(xz + new Vector2Int(-1, 0));
             if (IsInMapRange(xz + new Vector2Int(-1, -1))) nodes.Add(xz + new Vector2Int(-1, -1));
             return nodes;
+        }
+
+        public static void DebugHowLongActionTake(Action action, out float elapsedTimeInMs)
+        {
+            Stopwatch sw = Stopwatch.StartNew();
+            sw.Start();
+            action?.Invoke();
+            sw.Stop();
+            elapsedTimeInMs = sw.ElapsedMilliseconds;
         }
     }
 }
