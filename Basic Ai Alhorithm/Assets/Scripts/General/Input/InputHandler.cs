@@ -64,6 +64,7 @@ namespace General
         }
         private Vector3 ScreenPositionToWorldPosition(Vector3 screenPosition)
         {
+            
             Ray ray = mainCam.ScreenPointToRay(screenPosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
