@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,8 @@ namespace Astar.Brain
     /// </summary>
     public class AstarPathfinding : MonoBehaviour
     {
-        private List<Vector2Int> savedPathForGizmos = new List<Vector2Int>();
+        private List<Vector2Int> savedPath = new List<Vector2Int>();
         private Coroutine curActivePath;
-        [SerializeField]private Transform destinationPoint;
         private class NodeFlag
         {
             public readonly Vector2Int xz;
@@ -42,20 +42,24 @@ namespace Astar.Brain
         /// 
         /// </summary>
         /// <returns>closest path points to destination</returns>
-        public List<Vector2Int> StartPath(Vector3 startWorldPosition, Vector3 destinationWorldPosition)
+        public void StartPath(Vector3 startWorldPosition, Vector3 destinationWorldPosition, Action<List<Vector3>> OnSuccessGeneratingPath, Action OnFailed)
         {
             Vector2Int startNode = AstarBrain.instance.WorldToGrid(startWorldPosition);
             Vector2Int destNode = AstarBrain.instance.WorldToGrid(destinationWorldPosition);
-            savedPathForGizmos.Clear();
-
+            savedPath.Clear();
+            if (!AstarBrain.instance.grid[destNode].walkable)
+            {
+                OnFailed?.Invoke();
+                return;
+            }
+                
             if (curActivePath != null)
             {
                 StopCoroutine(curActivePath);
             }
-            curActivePath = StartCoroutine(ProcessPath(startNode, destNode));
-            return default;
+            curActivePath = StartCoroutine(ProcessPath(startNode, destNode, OnSuccessGeneratingPath));
         }
-        private IEnumerator ProcessPath(Vector2Int startNode,Vector2Int destinationNode)
+        private IEnumerator ProcessPath(Vector2Int startNode,Vector2Int destinationNode, Action<List<Vector3>> OnSuccessGeneratingPath)
         {
             Dictionary<Vector2Int, NodeFlag> openNodesFlag = new Dictionary<Vector2Int, NodeFlag>();
             Dictionary<Vector2Int, NodeFlag> closedNodesFlag = new Dictionary<Vector2Int, NodeFlag>();
@@ -95,25 +99,20 @@ namespace Astar.Brain
                         openNodesFlag.Add(nodeLocation, new NodeFlag(nodeLocation, lowestFNode, destinationNode));
                     }
                 }
-                savedPathForGizmos = closedNodesFlag.Keys.ToList();
+                savedPath = closedNodesFlag.Keys.ToList();
                 yield return null;
             }
+            OnSuccessGeneratingPath?.Invoke(savedPath.Select(xz => AstarBrain.instance.grid[xz].worldPosition).ToList());
             yield return null;
         }
         private void OnDrawGizmos()
         {
-            for (int i = 0; i < savedPathForGizmos.Count; i++)
+            for (int i = 0; i < savedPath.Count; i++)
             {
-                Vector2Int point = savedPathForGizmos[i];
-                Vector2Int nextPoint = (i + 1) > savedPathForGizmos.Count - 1 ? savedPathForGizmos[i] :savedPathForGizmos[i + 1];
+                Vector2Int point = savedPath[i];
+                Vector2Int nextPoint = (i + 1) > savedPath.Count - 1 ? savedPath[i] :savedPath[i + 1];
                 Gizmos.DrawLine(AstarBrain.instance.grid[point].worldPosition, AstarBrain.instance.grid[nextPoint].worldPosition);
             }
-        }
-        [ContextMenu(nameof(StartIT))]
-        public void StartIT()
-        {
-            Debug.Log("Starting finding path");
-            StartPath(transform.position, destinationPoint.transform.position);
         }
     }
     

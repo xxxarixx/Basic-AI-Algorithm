@@ -1,0 +1,60 @@
+{
+    "name": "Controlls",
+    "maps": [
+        {
+            "name": "Mouse",
+            "id": "98033b67-a436-4546-a1a1-43b2d492f1c0",
+            "actions": [
+                {
+                    "name": "PrimaryBtn",
+                    "type": "Button",
+                    "id": "c4a56634-f03f-432d-9e05-10c6bb132e87",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MousePosition",
+                    "type": "Value",
+                    "id": "0f0ecab3-ac06-45bd-a7af-1e18ed1de3b6",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a5a4fac2-5c9d-49fb-b279-ef5e688dfb63",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "Main",
+                    "action": "PrimaryBtn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b91277a6-e959-4b83-9acf-e84534d99b07",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Main",
+                    "action": "MousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Main",
+            "bindingGroup": "Main",
+            "devices": []
+        }
+    ]
+}
