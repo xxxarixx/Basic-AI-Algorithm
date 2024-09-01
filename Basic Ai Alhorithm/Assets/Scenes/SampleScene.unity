@@ -1630,7 +1630,7 @@ PrefabInstance:
     - target: {fileID: 7680010144105033890, guid: 8806c9ac002d365488193941acce0496,
         type: 3}
       propertyPath: offsetProjection.x
-      value: 0
+      value: 0.17
       objectReference: {fileID: 0}
     - target: {fileID: 7680010144105033890, guid: 8806c9ac002d365488193941acce0496,
         type: 3}
@@ -1640,17 +1640,17 @@ PrefabInstance:
     - target: {fileID: 7680010144105033890, guid: 8806c9ac002d365488193941acce0496,
         type: 3}
       propertyPath: offsetProjection.z
-      value: 0
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 7680010144105033890, guid: 8806c9ac002d365488193941acce0496,
         type: 3}
       propertyPath: offsetScaleProjection.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7680010144105033890, guid: 8806c9ac002d365488193941acce0496,
         type: 3}
       propertyPath: offsetScaleProjection.z
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8480187856487404493, guid: 8806c9ac002d365488193941acce0496,
         type: 3}

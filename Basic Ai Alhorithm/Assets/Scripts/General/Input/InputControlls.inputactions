@@ -1,14 +1,23 @@
 {
-    "name": "Controlls",
+    "name": "InputControlls",
     "maps": [
         {
             "name": "Mouse",
             "id": "98033b67-a436-4546-a1a1-43b2d492f1c0",
             "actions": [
                 {
-                    "name": "PrimaryBtn",
+                    "name": "PrimaryBtnPress",
                     "type": "Button",
                     "id": "c4a56634-f03f-432d-9e05-10c6bb132e87",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PrimaryBtnTap",
+                    "type": "Button",
+                    "id": "1e2f2adb-1996-4433-bb4c-f9c6cc5b882f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -22,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "MouseScroll",
+                    "type": "PassThrough",
+                    "id": "858e0e00-240d-4c2f-b946-63bb13bd003b",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -29,10 +47,10 @@
                     "name": "",
                     "id": "a5a4fac2-5c9d-49fb-b279-ef5e688dfb63",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "Tap",
+                    "interactions": "",
                     "processors": "",
-                    "groups": "Main",
-                    "action": "PrimaryBtn",
+                    "groups": "Keyboard&Mouse",
+                    "action": "PrimaryBtnPress",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -42,8 +60,30 @@
                     "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Main",
+                    "groups": "Keyboard&Mouse",
                     "action": "MousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9d425562-2c1b-4197-a444-4e5fd8a350c9",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "PrimaryBtnTap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fa706961-0d95-4296-b01b-b94f890fdfdc",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "MouseScroll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -52,8 +92,8 @@
     ],
     "controlSchemes": [
         {
-            "name": "Main",
-            "bindingGroup": "Main",
+            "name": "Keyboard&Mouse",
+            "bindingGroup": "Keyboard&Mouse",
             "devices": []
         }
     ]

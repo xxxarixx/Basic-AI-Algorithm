@@ -20,14 +20,14 @@ namespace Actor
         {
             if (moveTarget == null)
                 moveTarget = transform;
-            InputHandler.instance.onPrimaryBtnPressed += Instance_onPrimaryBtnPressed;
+            InputHandler.instance.onPrimaryBtnTap += OnPrimaryBtnTap;
         }
 
         private void OnDisable()
         {
-            InputHandler.instance.onPrimaryBtnPressed -= Instance_onPrimaryBtnPressed;
+            InputHandler.instance.onPrimaryBtnTap -= OnPrimaryBtnTap;
         }
-        private void Instance_onPrimaryBtnPressed(Vector3 mouseScreenPos, Vector3 mouseWorldPos)
+        private void OnPrimaryBtnTap(Vector3 mouseScreenPos, Vector3 mouseWorldPos)
         {
             pathfinding.StartPath(transform.position, mouseWorldPos,
             OnFailed:() =>

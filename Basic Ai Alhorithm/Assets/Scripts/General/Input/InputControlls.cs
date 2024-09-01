@@ -28,9 +28,18 @@ public partial class @InputControlls: IInputActionCollection2, IDisposable
             ""id"": ""98033b67-a436-4546-a1a1-43b2d492f1c0"",
             ""actions"": [
                 {
-                    ""name"": ""PrimaryBtn"",
+                    ""name"": ""PrimaryBtnPress"",
                     ""type"": ""Button"",
                     ""id"": ""c4a56634-f03f-432d-9e05-10c6bb132e87"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PrimaryBtnTap"",
+                    ""type"": ""Button"",
+                    ""id"": ""1e2f2adb-1996-4433-bb4c-f9c6cc5b882f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -44,6 +53,15 @@ public partial class @InputControlls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseScroll"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""858e0e00-240d-4c2f-b946-63bb13bd003b"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -51,10 +69,10 @@ public partial class @InputControlls: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""a5a4fac2-5c9d-49fb-b279-ef5e688dfb63"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Tap"",
+                    ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Main"",
-                    ""action"": ""PrimaryBtn"",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""PrimaryBtnPress"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -64,8 +82,30 @@ public partial class @InputControlls: IInputActionCollection2, IDisposable
                     ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Main"",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9d425562-2c1b-4197-a444-4e5fd8a350c9"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""PrimaryBtnTap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fa706961-0d95-4296-b01b-b94f890fdfdc"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""MouseScroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -74,16 +114,18 @@ public partial class @InputControlls: IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": [
         {
-            ""name"": ""Main"",
-            ""bindingGroup"": ""Main"",
+            ""name"": ""Keyboard&Mouse"",
+            ""bindingGroup"": ""Keyboard&Mouse"",
             ""devices"": []
         }
     ]
 }");
         // Mouse
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
-        m_Mouse_PrimaryBtn = m_Mouse.FindAction("PrimaryBtn", throwIfNotFound: true);
+        m_Mouse_PrimaryBtnPress = m_Mouse.FindAction("PrimaryBtnPress", throwIfNotFound: true);
+        m_Mouse_PrimaryBtnTap = m_Mouse.FindAction("PrimaryBtnTap", throwIfNotFound: true);
         m_Mouse_MousePosition = m_Mouse.FindAction("MousePosition", throwIfNotFound: true);
+        m_Mouse_MouseScroll = m_Mouse.FindAction("MouseScroll", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -145,14 +187,18 @@ public partial class @InputControlls: IInputActionCollection2, IDisposable
     // Mouse
     private readonly InputActionMap m_Mouse;
     private List<IMouseActions> m_MouseActionsCallbackInterfaces = new List<IMouseActions>();
-    private readonly InputAction m_Mouse_PrimaryBtn;
+    private readonly InputAction m_Mouse_PrimaryBtnPress;
+    private readonly InputAction m_Mouse_PrimaryBtnTap;
     private readonly InputAction m_Mouse_MousePosition;
+    private readonly InputAction m_Mouse_MouseScroll;
     public struct MouseActions
     {
         private @InputControlls m_Wrapper;
         public MouseActions(@InputControlls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @PrimaryBtn => m_Wrapper.m_Mouse_PrimaryBtn;
+        public InputAction @PrimaryBtnPress => m_Wrapper.m_Mouse_PrimaryBtnPress;
+        public InputAction @PrimaryBtnTap => m_Wrapper.m_Mouse_PrimaryBtnTap;
         public InputAction @MousePosition => m_Wrapper.m_Mouse_MousePosition;
+        public InputAction @MouseScroll => m_Wrapper.m_Mouse_MouseScroll;
         public InputActionMap Get() { return m_Wrapper.m_Mouse; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -162,22 +208,34 @@ public partial class @InputControlls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_MouseActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_MouseActionsCallbackInterfaces.Add(instance);
-            @PrimaryBtn.started += instance.OnPrimaryBtn;
-            @PrimaryBtn.performed += instance.OnPrimaryBtn;
-            @PrimaryBtn.canceled += instance.OnPrimaryBtn;
+            @PrimaryBtnPress.started += instance.OnPrimaryBtnPress;
+            @PrimaryBtnPress.performed += instance.OnPrimaryBtnPress;
+            @PrimaryBtnPress.canceled += instance.OnPrimaryBtnPress;
+            @PrimaryBtnTap.started += instance.OnPrimaryBtnTap;
+            @PrimaryBtnTap.performed += instance.OnPrimaryBtnTap;
+            @PrimaryBtnTap.canceled += instance.OnPrimaryBtnTap;
             @MousePosition.started += instance.OnMousePosition;
             @MousePosition.performed += instance.OnMousePosition;
             @MousePosition.canceled += instance.OnMousePosition;
+            @MouseScroll.started += instance.OnMouseScroll;
+            @MouseScroll.performed += instance.OnMouseScroll;
+            @MouseScroll.canceled += instance.OnMouseScroll;
         }
 
         private void UnregisterCallbacks(IMouseActions instance)
         {
-            @PrimaryBtn.started -= instance.OnPrimaryBtn;
-            @PrimaryBtn.performed -= instance.OnPrimaryBtn;
-            @PrimaryBtn.canceled -= instance.OnPrimaryBtn;
+            @PrimaryBtnPress.started -= instance.OnPrimaryBtnPress;
+            @PrimaryBtnPress.performed -= instance.OnPrimaryBtnPress;
+            @PrimaryBtnPress.canceled -= instance.OnPrimaryBtnPress;
+            @PrimaryBtnTap.started -= instance.OnPrimaryBtnTap;
+            @PrimaryBtnTap.performed -= instance.OnPrimaryBtnTap;
+            @PrimaryBtnTap.canceled -= instance.OnPrimaryBtnTap;
             @MousePosition.started -= instance.OnMousePosition;
             @MousePosition.performed -= instance.OnMousePosition;
             @MousePosition.canceled -= instance.OnMousePosition;
+            @MouseScroll.started -= instance.OnMouseScroll;
+            @MouseScroll.performed -= instance.OnMouseScroll;
+            @MouseScroll.canceled -= instance.OnMouseScroll;
         }
 
         public void RemoveCallbacks(IMouseActions instance)
@@ -195,18 +253,20 @@ public partial class @InputControlls: IInputActionCollection2, IDisposable
         }
     }
     public MouseActions @Mouse => new MouseActions(this);
-    private int m_MainSchemeIndex = -1;
-    public InputControlScheme MainScheme
+    private int m_KeyboardMouseSchemeIndex = -1;
+    public InputControlScheme KeyboardMouseScheme
     {
         get
         {
-            if (m_MainSchemeIndex == -1) m_MainSchemeIndex = asset.FindControlSchemeIndex("Main");
-            return asset.controlSchemes[m_MainSchemeIndex];
+            if (m_KeyboardMouseSchemeIndex == -1) m_KeyboardMouseSchemeIndex = asset.FindControlSchemeIndex("Keyboard&Mouse");
+            return asset.controlSchemes[m_KeyboardMouseSchemeIndex];
         }
     }
     public interface IMouseActions
     {
-        void OnPrimaryBtn(InputAction.CallbackContext context);
+        void OnPrimaryBtnPress(InputAction.CallbackContext context);
+        void OnPrimaryBtnTap(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
+        void OnMouseScroll(InputAction.CallbackContext context);
     }
 }
