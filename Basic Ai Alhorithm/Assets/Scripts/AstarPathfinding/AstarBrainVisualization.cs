@@ -17,7 +17,7 @@ namespace Astar.Brain
             astarBrain = GetComponent<AstarBrain>();
         }
 
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
             if (!astarBrain.setupped)
                 astarBrain.Scan();

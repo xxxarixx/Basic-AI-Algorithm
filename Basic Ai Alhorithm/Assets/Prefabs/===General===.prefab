@@ -199,8 +199,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3930453dfd7d8142a7da16f7065658d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraBounds: {x: 15.2, y: 8.31, z: 17}
-  center: {x: 6.32, y: 11.68, z: -13.88}
+  cameraBounds: {x: 15.2, y: 9.3, z: 17}
+  center: {x: 6.32, y: 10.23, z: -13.88}
   dragSpeed: 3
   zoomIntencity: 0.06
   zoomSmoothness: 0.39

@@ -20,7 +20,14 @@ public class CameraMovement : MonoBehaviour
     private void Awake()
     {
         cam = GetComponent<Camera>();
-        newZoomValue = transform.position.y;
+        if (!cam.orthographic)
+        {
+            newZoomValue = transform.position.y;
+        }
+        else
+        {
+            newZoomValue = 10f;
+        }
     }
     private void OnEnable()
     {
@@ -38,8 +45,17 @@ public class CameraMovement : MonoBehaviour
     }
     private void OnMouseScroll(Vector2 scrollDelta)
     {
-        newZoomValue = transform.position.y + scrollDelta.y * zoomIntencity;
-        newZoomValue = Mathf.Clamp(newZoomValue, center.y - cameraBounds.y, center.y + cameraBounds.y);
+        ///perspective camera logick
+        if (!cam.orthographic)
+        {
+            newZoomValue = transform.position.y + scrollDelta.y * zoomIntencity;
+            newZoomValue = Mathf.Clamp(newZoomValue, center.y - cameraBounds.y, center.y + cameraBounds.y);
+        }
+        else
+        {
+            newZoomValue = cam.orthographicSize + scrollDelta.y * zoomIntencity;
+            newZoomValue = Mathf.Clamp(newZoomValue, center.y - cameraBounds.y, center.y + cameraBounds.y);
+        }
 
     }
     private void Update()
@@ -49,7 +65,15 @@ public class CameraMovement : MonoBehaviour
     }
     private void ScrollMovementSmoothess()
     {
-        transform.DOMoveY(newZoomValue,duration:zoomSmoothness).SetEase(Ease.OutQuad);
+        ///perspective camera logick
+        if(!cam.orthographic)
+        {
+            transform.DOMoveY(newZoomValue,duration:zoomSmoothness).SetEase(Ease.OutQuad);
+        }
+        else
+        {
+            cam.DOOrthoSize(newZoomValue, duration: zoomSmoothness).SetEase(Ease.OutQuad);
+        }
     }
     private void OnPrimaryBtnPressed(Vector3 mouseScreenPos, Vector3 mouseWorldPos)
     {
@@ -82,7 +106,7 @@ public class CameraMovement : MonoBehaviour
             y: Mathf.Clamp(transform.position.y, center.y - cameraBounds.y, center.y + cameraBounds.y),
             z: Mathf.Clamp(transform.position.z, center.z - cameraBounds.z, center.z + cameraBounds.z));
     }
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(center, cameraBounds);
