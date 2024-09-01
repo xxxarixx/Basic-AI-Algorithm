@@ -14,6 +14,7 @@ namespace Actor
         [SerializeField] private Transform moveTarget;
         [SerializeField] private LayerMask groundLayer;
         [SerializeField] private ActorStatistics statistics;
+        [SerializeField] private Ease ease = Ease.Linear;
         private Coroutine processMove;
         private void OnEnable()
         {
@@ -55,7 +56,7 @@ namespace Actor
 ;
             }).ToArray();
             moveTarget.DOKill();
-            moveTarget.DOPath(path, duration: worldPositionPoints.Count * (0.25f / statistics.mvSpeed), pathType: PathType.CatmullRom,gizmoColor:new Color(0f,0f,0f,0f)).SetEase(Ease.OutQuad);
+            moveTarget.DOPath(path, duration: worldPositionPoints.Count * (0.25f / statistics.mvSpeed), pathType: PathType.Linear,gizmoColor:new Color(0f,0f,0f,0f)).SetEase(ease);
         }
     }
 

@@ -11,19 +11,23 @@ namespace Astar.Brain
     /// </summary>
     public class AstarPathfinding : MonoBehaviour
     {
-        private List<Vector2Int> savedPath = new List<Vector2Int>();
+        private List<Vector3> savedPath = new List<Vector3>();
         private Coroutine curActivePath;
         private class NodeFlag
         {
+            /// <summary>
+            /// mainly for backtracing path
+            /// </summary>
+            public readonly NodeFlag lastNode;
             public readonly Vector2Int xz;
             /// <summary>
             /// distance to starting node
             /// </summary>
-            public float gCost;
+            public readonly float gCost;
             /// <summary>
             ///  +- distance to destination point
             /// </summary>
-            public float hCost;
+            public readonly float hCost;
             /// <summary>
             /// total +- cost of path to destination
             /// </summary>
@@ -35,6 +39,7 @@ namespace Astar.Brain
                     lastNode = this;
                 gCost = Vector2Int.Distance(xz, lastNode.xz);
                 hCost = Vector2Int.Distance(xz, destNode);
+                this.lastNode = lastNode; 
             }
         }
         
@@ -49,8 +54,21 @@ namespace Astar.Brain
             savedPath.Clear();
             if (!AstarBrain.instance.grid[destNode].walkable)
             {
-                OnFailed?.Invoke();
-                return;
+                ///Find close by node if destination node is impossible
+                List<Vector2Int> potencialNewDestination = new List<Vector2Int>();
+                foreach (var neighbour in AstarBrain.instance._Get8NeighbourNodes(destNode))
+                {
+                    if (!AstarBrain.instance.grid[neighbour].walkable)
+                        continue;
+                    potencialNewDestination.Add(neighbour);
+                }
+                if(potencialNewDestination.Count == 0)
+                {
+                    OnFailed?.Invoke();
+                    return;
+                }
+                destNode = potencialNewDestination.OrderBy(nodeLocation => Vector2.Distance(nodeLocation, destNode)).First();
+
             }
                 
             if (curActivePath != null)
@@ -64,7 +82,9 @@ namespace Astar.Brain
             Dictionary<Vector2Int, NodeFlag> openNodesFlag = new Dictionary<Vector2Int, NodeFlag>();
             Dictionary<Vector2Int, NodeFlag> closedNodesFlag = new Dictionary<Vector2Int, NodeFlag>();
             AstarBrain astar = AstarBrain.instance;
-            openNodesFlag.Add(startNode, new NodeFlag(startNode, null, destinationNode));
+            var startNodeFlag = new NodeFlag(startNode, null, destinationNode);
+            openNodesFlag.Add(startNode, startNodeFlag);
+            ///find path
             while (openNodesFlag.Count > 0)
             {
                 NodeFlag lowestFNode = openNodesFlag.Values.OrderBy(x => x.fCost).First();
@@ -89,7 +109,7 @@ namespace Astar.Brain
                         
                     if(openNodesFlag.ContainsKey(nodeLocation))
                     {
-                        if (openNodesFlag[nodeLocation].gCost > lowestFNode.gCost)
+                        if (lowestFNode.gCost > openNodesFlag[nodeLocation].gCost)
                         {
                             continue;
                         }
@@ -99,18 +119,33 @@ namespace Astar.Brain
                         openNodesFlag.Add(nodeLocation, new NodeFlag(nodeLocation, lowestFNode, destinationNode));
                     }
                 }
-                savedPath = closedNodesFlag.Keys.ToList();
             }
-            OnSuccessGeneratingPath?.Invoke(savedPath.Select(xz => AstarBrain.instance.grid[xz].worldPosition).ToList());
+            ///backtrace to get most optimal path
+            List<Vector3> BackTraceClosedNodesFlag()
+            {
+                List<Vector3> backtraced = new List<Vector3>();
+                NodeFlag backtraceTarget = closedNodesFlag[destinationNode];
+                backtraced.Add(AstarBrain.instance.grid[backtraceTarget.xz].worldPosition);
+                while (backtraceTarget.lastNode != backtraceTarget)
+                {
+                    backtraceTarget = backtraceTarget.lastNode;
+                    backtraced.Add(AstarBrain.instance.grid[backtraceTarget.xz].worldPosition);
+                }
+                backtraced.Reverse();
+                return backtraced;
+            }
+
+            savedPath = BackTraceClosedNodesFlag();
+            OnSuccessGeneratingPath?.Invoke(savedPath);
             yield return null;
         }
         private void OnDrawGizmos()
         {
             for (int i = 0; i < savedPath.Count; i++)
             {
-                Vector2Int point = savedPath[i];
-                Vector2Int nextPoint = (i + 1) > savedPath.Count - 1 ? savedPath[i] :savedPath[i + 1];
-                Gizmos.DrawLine(AstarBrain.instance.grid[point].worldPosition, AstarBrain.instance.grid[nextPoint].worldPosition);
+                Vector3 point = savedPath[i];
+                Vector3 nextPoint = (i + 1) > savedPath.Count - 1 ? savedPath[i] :savedPath[i + 1];
+                Gizmos.DrawLine(point, nextPoint);
             }
         }
     }
