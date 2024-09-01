@@ -78,7 +78,7 @@ namespace Astar.Brain
                 {
                     break;
                 }
-                List<Vector2Int> neighbours = astar._GetNeighbour8Nodes(lowestFNode.xz);
+                List<Vector2Int> neighbours = astar._Get8NeighbourNodes(lowestFNode.xz);
                 foreach (var nodeLocation in neighbours)
                 {
                     //you shall not pass
@@ -100,7 +100,6 @@ namespace Astar.Brain
                     }
                 }
                 savedPath = closedNodesFlag.Keys.ToList();
-                yield return null;
             }
             OnSuccessGeneratingPath?.Invoke(savedPath.Select(xz => AstarBrain.instance.grid[xz].worldPosition).ToList());
             yield return null;

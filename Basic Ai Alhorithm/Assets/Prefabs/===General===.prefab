@@ -186,6 +186,89 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &3215482738751274663
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4673320619002173814}
+  - component: {fileID: 7523471505109661845}
+  - component: {fileID: 2043193837125022380}
+  m_Layer: 0
+  m_Name: WorldToGridVis
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4673320619002173814
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3215482738751274663}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -12.655823, y: -9.211971, z: 16.849632}
+  m_LocalScale: {x: 0.74, y: 0.73, z: 0.57}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2082276659742621710}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &7523471505109661845
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3215482738751274663}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &2043193837125022380
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3215482738751274663}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 8521b32b7fcd7ae41acc48012ada9ec0, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &4948641308640698060
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,10 +360,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacleFolder: {fileID: 0}
-  _inspMapSize: {x: 100, y: 1, z: 100}
-  _InspCenter: {x: 0, y: 0, z: 0}
+  _inspMapSize: {x: 131, y: 1, z: 150}
+  _InspCenter: {x: 47.1, y: 0, z: 32.9}
+  _InspGridSize: 0.4
   debugModeOn: 1
-  scanOnValidate: 1
+  scanOnValidate: 0
 --- !u!114 &4785277769965862504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,6 +381,7 @@ MonoBehaviour:
   walkableGridCol: {r: 0.33962262, g: 0.29316482, b: 0.29316482, a: 1}
   blokedGridCol: {r: 0, g: 0, b: 0, a: 1}
   sampleObstacleLocation: {x: 5, y: 5}
+  Go_worldToGridVis: {fileID: 3215482738751274663}
 --- !u!1 &6714988458478483273
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,6 +416,7 @@ Transform:
   - {fileID: 3429120990039959445}
   - {fileID: 8451530768520405407}
   - {fileID: 1444523941097872113}
+  - {fileID: 4673320619002173814}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7941261283613398085

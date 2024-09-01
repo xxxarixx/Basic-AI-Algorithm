@@ -18,11 +18,14 @@ namespace Astar.Brain
         [SerializeField] private Vector3Int _inspMapSize = new Vector3Int(100,1,100);
         [SerializeField] private Vector3 _InspCenter;
         public Vector3 center => _InspCenter;
-        public Vector3 mapSize => _inspMapSize;
+       
+        public Vector3Int mapSize => _inspMapSize;
+        public ScanData lastScanData;
         public Dictionary<Vector2Int, AstarNode> grid { get; private set; } = new Dictionary<Vector2Int, AstarNode>();
         public int width => _inspMapSize.x;
         public int depth => _inspMapSize.z;
-        public const float gridSize = 1f;
+        [SerializeField]private float _InspGridSize = 1f;
+        public float gridSize => _InspGridSize==0? 1: _InspGridSize;
         public bool setupped => grid.Count > 0;
         public bool debugModeOn = true;
         public bool scanOnValidate = true;
@@ -46,10 +49,23 @@ namespace Astar.Brain
             }
             private Vector3 GridToWorld()
             {
-                return new Vector3(
-                    gridSize * (x - astarBrain.width / 2),
-                    astarBrain.center.y,
-                    gridSize * (z - astarBrain.depth / 2)) + astarBrain.center;
+                
+                float gridX = astarBrain.center.x - (astarBrain.width / 2) + (x * astarBrain.gridSize);
+                float gridZ = astarBrain.center.z - (astarBrain.depth / 2) + (z * astarBrain.gridSize);
+                return new Vector3(gridX, astarBrain.center.y, gridZ);
+            }
+        }
+        /// <summary>
+        /// Stores data that was used to create Astar map scan, if values are different then inspector, hit Scan()
+        /// </summary>
+        public struct ScanData
+        {
+            public readonly Vector3 center;
+            public readonly Vector3Int mapSize;
+            public ScanData(Vector3 center, Vector3Int mapSize)
+            {
+                this.center = center;
+                this.mapSize = mapSize;
             }
         }
         private void Awake()
@@ -68,6 +84,8 @@ namespace Astar.Brain
         public void Scan()
         {
             instance = this;
+            grid.Clear();
+            lastScanData = new ScanData(center: center, mapSize: mapSize);
             if (debugModeOn) 
                 Debug.Log("Started setuping Astar");
             DebugHowLongActionTake(action: () =>
@@ -133,18 +151,17 @@ namespace Astar.Brain
         /// <returns>astar map coordinate CLOSEST to world position</returns>
         public Vector2Int WorldToGrid(Vector3 worldPos)
         {
-            worldPos += new Vector3(width / 2,0, depth / 2);
-            worldPos -= _InspCenter;
+            int closestGridX = Mathf.RoundToInt((worldPos.x - center.x + (width / 2)) / gridSize);
+            int closestGridZ = Mathf.RoundToInt((worldPos.z - center.z + (depth / 2)) / gridSize);
             return new Vector2Int(
-                Mathf.RoundToInt(worldPos.x * gridSize),
-                Mathf.RoundToInt(worldPos.z * gridSize)
-                );
+                closestGridX,
+               closestGridZ);
         }
         public bool IsInMapRange(Vector2Int xz)
         {
             return grid.ContainsKey(xz);
         }
-        public List<Vector2Int> _GetNeighbour4Nodes(Vector2Int xz)
+        public List<Vector2Int> _Get4NeighbourNodes(Vector2Int xz)
         {
             List<Vector2Int> nodes = new List<Vector2Int>();
             if (IsInMapRange(xz + new Vector2Int(0,1))) nodes.Add(xz + new Vector2Int(0, 1));
@@ -153,7 +170,7 @@ namespace Astar.Brain
             if (IsInMapRange(xz + new Vector2Int(-1,0))) nodes.Add(xz + new Vector2Int(-1, 0));
             return nodes;
         }
-        public List<Vector2Int> _GetNeighbour8Nodes(Vector2Int xz)
+        public List<Vector2Int> _Get8NeighbourNodes(Vector2Int xz)
         {
             List<Vector2Int> nodes = new List<Vector2Int>();
             if (IsInMapRange(xz + new Vector2Int(0, 1))) nodes.Add(xz + new Vector2Int(0, 1));

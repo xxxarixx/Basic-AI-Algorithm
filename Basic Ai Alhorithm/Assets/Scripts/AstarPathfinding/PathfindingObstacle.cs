@@ -10,7 +10,7 @@ namespace Astar.pathfinding
     {
         private Vector2Int[] obstacleEdges;
         private Color obstacleGizmosCol = Color.yellow;
-        public Vector3 offsetScaleProjection = new Vector3();
+        public Vector3Int offsetScaleProjection = new Vector3Int();
         [SerializeField] private Vector3 offsetProjection;
         [ContextMenu(nameof(ProjectObstacleOnGrid))]
         public void ProjectObstacleOnGrid()
@@ -41,10 +41,13 @@ namespace Astar.pathfinding
         }
         private Vector2Int GetObstacleEdge(Vector2Int edgeDirection)
         {
+            //normalize direction to range -1;1
             edgeDirection = new Vector2Int(Mathf.Clamp(edgeDirection.x, -1, 1), Mathf.Clamp(edgeDirection.y, -1, 1));
             Vector2Int obstacleGridCenter = AstarBrain.instance.WorldToGrid(transform.position + offsetProjection);
-            return new Vector2Int(obstacleGridCenter.x + edgeDirection.x * Mathf.RoundToInt( (transform.localScale.x + offsetScaleProjection.x) / 2),
-                                obstacleGridCenter.y + edgeDirection.y * Mathf.RoundToInt( (transform.localScale.z + offsetScaleProjection.z) / 2));
+            Vector3 localScale_ScaledWithGridSize = transform.localScale / AstarBrain.instance.gridSize;
+            Vector3 offsetScaleProjection_ScaledWithGridSize = ((Vector3)offsetScaleProjection) / AstarBrain.instance.gridSize;
+            return new Vector2Int(obstacleGridCenter.x + edgeDirection.x * Mathf.RoundToInt( (localScale_ScaledWithGridSize.x + offsetScaleProjection_ScaledWithGridSize.x) / 2),
+                                obstacleGridCenter.y + edgeDirection.y * Mathf.RoundToInt( (localScale_ScaledWithGridSize.z + offsetScaleProjection_ScaledWithGridSize.z) / 2));
         }
 
         private void OnDrawGizmosSelected()
