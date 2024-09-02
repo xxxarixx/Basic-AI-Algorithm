@@ -1,3 +1,4 @@
+using CropField;
 using DG.Tweening;
 using System;
 using System.Collections;
@@ -8,26 +9,26 @@ using static DebugHelper.DebugHelper;
 using Random = UnityEngine.Random;
 namespace AI.Farmer
 {
-    public class AI_Farmer_PatrolState : AI_Farmer_BaseState
+    public class AI_Farmer_FindEmptyCropGroundState : AI_Farmer_BaseState
     {
        private const int pointsPerCurve = 4;
        private LayerMask groundLayer = 1 << 3;
        private Ease movementEase = Ease.OutSine;
-        public override void OnEnterState(AI_Farmer_StateManager stateManager)
+        public override IEnumerator OnEnterState(AI_Farmer_StateManager stateManager)
         {
             Transform transform = stateManager.transform;
             Debug.Log("Entered patrol state");
             
             stateManager.pathfinding.StartBezierPath(
                 startWorldPosition: transform.position,
-                destinationWorldPosition: ChooseRandomFarm(stateManager),
+                destinationWorldPosition: FindEmptyCropSpace(stateManager),
                 OnSuccessGeneratingPath:(List<Vector3> worldPositionPoints) => 
                 {
-                    TextPopup(transform.position + new Vector3(0f, 10f, 0f), "Started Patrolling", Color.white, duration: 2f);
+                    TextPopup(transform.position + new Vector3(0f, 10f, 0f), "Searching for crop holes", Color.white, duration: 2f);
                     MoveByPoints(transform,stateManager,worldPositionPoints,
                     OnCompleteMoving: () =>
                     {
-                        stateManager.SetState(stateManager.state_patrol);
+                        stateManager.SetState(stateManager.state_plantSeed);
                     });
                 },
                 OnFailed:() =>
@@ -35,6 +36,7 @@ namespace AI.Farmer
                     TextPopup(transform.position + new Vector3(0f, 10f, 0f), "Something went wrong with generating path!", Color.white, duration: 2f);
                 },
                 pointsPerCurve: pointsPerCurve);
+            yield return null;
         }
 
         public override void OnExitState(AI_Farmer_StateManager stateManager)
@@ -66,11 +68,11 @@ namespace AI.Farmer
                 .SetEase(movementEase)
                 .OnComplete(() => OnCompleteMoving?.Invoke());
         }
-        private Vector3 ChooseRandomFarm(AI_Farmer_StateManager stateManager)
+        private Vector3 FindEmptyCropSpace(AI_Farmer_StateManager stateManager)
         {
-            if (stateManager.farmsLocations.Count == 0)
+            if (CropField_Manager.instance.cropFields.Count == 0)
                 return default;
-            return stateManager.farmsLocations[Random.Range(0, stateManager.farmsLocations.Count)].position;
+            return CropField_Manager.instance.GetClosestEmptyCropGroundPosition(stateManager.transform);
         }
     }
 }
