@@ -200,3 +200,5 @@ MonoBehaviour:
     m_Bits: 8
   statistics: {fileID: 11400000, guid: d3f6cdc1c0ab99d4da824db18699b917, type: 2}
   ease: 3
+  pathType: 1
+  pointsPerCurve: 3

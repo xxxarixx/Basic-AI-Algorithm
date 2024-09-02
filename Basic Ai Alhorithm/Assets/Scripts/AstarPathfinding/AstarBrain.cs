@@ -171,7 +171,7 @@ namespace Astar.Brain
             if (IsInMapRange(xz + new Vector2Int(-1,0))) nodes.Add(xz + new Vector2Int(-1, 0));
             return nodes;
         }
-        public List<Vector2Int> _Get8NeighbourNodes(Vector2Int xz)
+        public List<Vector2Int> Get8NeighbourNodes(Vector2Int xz)
         {
             List<Vector2Int> nodes = new List<Vector2Int>();
             if (IsInMapRange(xz + new Vector2Int(0, 1))) nodes.Add(xz + new Vector2Int(0, 1));
@@ -183,6 +183,15 @@ namespace Astar.Brain
             if (IsInMapRange(xz + new Vector2Int(-1, 0))) nodes.Add(xz + new Vector2Int(-1, 0));
             if (IsInMapRange(xz + new Vector2Int(-1, -1))) nodes.Add(xz + new Vector2Int(-1, -1));
             return nodes;
+        }
+        public bool IsDiagonalNeighbor(Vector2Int xz1, Vector2Int xz2)
+        {
+            // Calculate the difference in x and y coordinates
+            int dx = Math.Abs(xz2.x - xz1.x);
+            int dz = Math.Abs(xz2.y - xz1.y);
+
+            // Check if the differences are equal and non-zero (diagonal condition)
+            return dx == dz && dx != 0;
         }
 
         public static void DebugHowLongActionTake(Action action, out float elapsedTimeInMs)

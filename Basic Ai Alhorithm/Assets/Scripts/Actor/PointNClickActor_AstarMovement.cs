@@ -16,7 +16,14 @@ namespace Actor
         [SerializeField] private LayerMask groundLayer;
         [SerializeField] private ActorStatistics statistics;
         [SerializeField] private Ease ease = Ease.Linear;
+        [SerializeField] private AstarPathType pathType;
+        [SerializeField] private int pointsPerCurve = 4;
         private Coroutine processMove;
+        enum AstarPathType
+        {
+            Linear,
+            Bezier
+        }
         private void OnEnable()
         {
             if (moveTarget == null)
@@ -31,15 +38,33 @@ namespace Actor
         private void OnPrimaryBtnTap(Vector3 mouseScreenPos, Vector3 mouseWorldPos)
         {
             TextPopup(transform.position + new Vector3(0f,10f,0f),"started path", Color.white,duration:2f);
-            pathfinding.StartPath(transform.position, mouseWorldPos,
-            OnFailed:() =>
+            switch (pathType)
             {
-                Debug.Log("Destination path is impossible");
-            }, 
-            OnSuccessGeneratingPath: (List<Vector3> worldPointsPosition) =>
-            {
-                MoveByPoints(worldPointsPosition);
-            });
+                case AstarPathType.Linear:
+                        pathfinding.StartLinearPath(transform.position, mouseWorldPos,
+                        OnFailed:() =>
+                        {
+                            Debug.Log("Destination path is impossible");
+                        }, 
+                        OnSuccessGeneratingPath: (List<Vector3> worldPointsPosition) =>
+                        {
+                            MoveByPoints(worldPointsPosition);
+                        });
+                    break;
+                case AstarPathType.Bezier:
+                        pathfinding.StartBezierPath(transform.position, mouseWorldPos,
+                        OnFailed:() =>
+                        {
+                            Debug.Log("Destination path is impossible");
+                        }, 
+                        OnSuccessGeneratingPath: (List<Vector3> worldPointsPosition) =>
+                        {
+                            MoveByPoints(worldPointsPosition);
+                        },pointsPerCurve: pointsPerCurve);
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void MoveByPoints(List<Vector3> worldPositionPoints)

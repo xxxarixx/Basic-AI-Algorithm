@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 198e077344d6fac48b4000af813b8ba7, type: 3}
   m_Name: NewActorStatistics
   m_EditorClassIdentifier: 
-  mvSpeed: 2
+  mvSpeed: 8.68

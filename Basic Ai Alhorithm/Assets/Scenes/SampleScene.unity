@@ -4517,6 +4517,57 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1800712937}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1818197573
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1818197575}
+  - component: {fileID: 1818197574}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1818197574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818197573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bd64971b61a55f4495600118c3265dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldPoints:
+  - {x: -4.14, y: 1.21, z: 0.84}
+  - {x: -4.14, y: 2.18, z: 0.06499998}
+  - {x: -4.14, y: 1.77, z: -0.71}
+  - {x: -4.14, y: 2.12, z: -1.59}
+  - {x: -4.14, y: 1.26, z: -3.07}
+  pointsPerCurve: 11
+--- !u!4 &1818197575
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818197573}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.799, y: 0.358, z: -18.388}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1826950149
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5424,6 +5475,16 @@ PrefabInstance:
       propertyPath: destinationPoint
       value: 
       objectReference: {fileID: 6265556665751615902}
+    - target: {fileID: 3198866362574754420, guid: b6a486fd05fa8b849a33d81fea5dcff2,
+        type: 3}
+      propertyPath: pathType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3198866362574754420, guid: b6a486fd05fa8b849a33d81fea5dcff2,
+        type: 3}
+      propertyPath: pointsPerCurve
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8081632593832821415, guid: b6a486fd05fa8b849a33d81fea5dcff2,
         type: 3}
       propertyPath: m_Name
@@ -5820,3 +5881,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 1755778671810293370}
   - {fileID: 1797775484}
+  - {fileID: 1818197575}
