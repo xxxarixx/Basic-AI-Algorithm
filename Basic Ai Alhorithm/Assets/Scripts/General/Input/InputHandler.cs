@@ -11,13 +11,19 @@ namespace General
         public static InputHandler instance { get; private set; }
         [SerializeField]private Camera mainCam;
         private InputControlls inputControlls;
+        #region Mouse
         public delegate void MouseEvents(Vector3 mouseScreenPos,Vector3 mouseWorldPos);
         public delegate void MouseScrollEvents(Vector2 scrollDelta);
         public event MouseEvents onPrimaryBtnTap;
         public event MouseEvents onPrimaryBtnStartPressing;
         public event MouseEvents onPrimaryBtnPressed;
         public event MouseEvents onPrimaryBtnRelease;
-
+        #endregion
+        #region Keyboard
+        public delegate void KeyboardEvents();
+        public event KeyboardEvents onFastForwardKeyTap;
+        public event KeyboardEvents onAutoFocusKeyTap;
+        #endregion
         public event MouseScrollEvents onMouseScroll;
         public Vector3 mouseWorldPosition { get; private set; }
         public Vector3 mouseScreenPosition { get; private set; }
@@ -36,19 +42,32 @@ namespace General
             inputControlls.Mouse.PrimaryBtnPress.started += PrimaryBtn_started;
             inputControlls.Mouse.PrimaryBtnPress.canceled += PrimaryBtn_canceled;
             inputControlls.Mouse.MouseScroll.performed += MouseScroll_performed;
+            inputControlls.Keyboard.FastForwardKeyTap.performed += FastForwardKeyTap_performed;
+            inputControlls.Keyboard.AutoFocusKeyTap.performed += AutoFocusKeyTap_performed;
         }
 
-        private void MouseScroll_performed(InputAction.CallbackContext obj)
-        {
-            onMouseScroll?.Invoke(inputControlls.Mouse.MouseScroll.ReadValue<Vector2>());
-        }
 
         private void OnDisable()
         {
             inputControlls.Mouse.PrimaryBtnTap.performed -= PrimaryBtnTap_performed;
             inputControlls.Mouse.PrimaryBtnPress.started -= PrimaryBtn_started;
             inputControlls.Mouse.PrimaryBtnPress.canceled -= PrimaryBtn_canceled;
+            inputControlls.Keyboard.FastForwardKeyTap.performed -= FastForwardKeyTap_performed;
+            inputControlls.Keyboard.AutoFocusKeyTap.performed -= AutoFocusKeyTap_performed;
             inputControlls.Disable();
+        }
+        private void AutoFocusKeyTap_performed(InputAction.CallbackContext obj)
+        {
+            onAutoFocusKeyTap?.Invoke();
+        }
+        private void FastForwardKeyTap_performed(InputAction.CallbackContext obj)
+        {
+            onFastForwardKeyTap?.Invoke();
+        }
+
+        private void MouseScroll_performed(InputAction.CallbackContext obj)
+        {
+            onMouseScroll?.Invoke(inputControlls.Mouse.MouseScroll.ReadValue<Vector2>());
         }
         private void Update()
         {

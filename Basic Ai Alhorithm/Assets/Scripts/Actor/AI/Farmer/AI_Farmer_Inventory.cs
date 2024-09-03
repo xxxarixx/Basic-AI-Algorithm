@@ -14,7 +14,7 @@ namespace AI.Farmer
         [System.Serializable]
         public class InventoryItem
         {
-            [SerializeField] private CropAndSeedBase currentHoldingCropOrSeed;
+            private CropAndSeedBase currentHoldingCropOrSeed;
             public int amount { get; private set; } = 0;
             public bool HasAnySeedsOrCrops => amount > 0;
             public CropAndSeedBase GetSeedFromInventory()

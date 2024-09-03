@@ -13,8 +13,10 @@ namespace AI.Farmer
     {
         public AI_Farmer_Inventory inventory;
         public AI_Farmer_StateManager stateManager;
+        public AI_Farmer_Apperance apperance;
         public ActorStatistics actorStatistics;
         public AstarPathfinding pathfinding;
+        public MeshRenderer mRenderer;
 
         private LayerMask groundLayer = 1 << 3;
         private Ease movementEase = Ease.OutSine;

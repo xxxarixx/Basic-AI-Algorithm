@@ -21,11 +21,19 @@ namespace General.UI
         {
             UpdateTimeScale();
             speedChanger.onClick.AddListener(OnPressedSpdChange);
+            InputHandler.instance.onFastForwardKeyTap += OnFastForwardKeyTap;
         }
         private void OnDisable()
         {
             speedChanger.onClick.RemoveListener(OnPressedSpdChange);
+            InputHandler.instance.onFastForwardKeyTap -= OnFastForwardKeyTap;
         }
+
+        private void OnFastForwardKeyTap()
+        {
+            OnPressedSpdChange();
+        }
+
         private void OnPressedSpdChange()
         {
             currentSelectedSpdValue++;
