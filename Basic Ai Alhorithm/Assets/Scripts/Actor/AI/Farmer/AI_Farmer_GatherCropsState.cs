@@ -26,7 +26,7 @@ namespace AI.Farmer
                 dependencies.stateManager.SetState(dependencies.stateManager.state_FindGrownCrops);
                 yield return null;
             }
-
+            yield return new WaitForSeconds(AI_Farmer_Dependencies.timeBetweenPlant);
             dependencies.inventory.inventorySlot.AddAmount(1);
             closestCropHole.cropType.OnHarvested(closestCropHole);
             closestCropHole.RemoveCropFromCropHole();

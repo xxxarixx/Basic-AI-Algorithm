@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 namespace AI.Farmer
 {
     [RequireComponent(typeof(AI_Farmer_Dependencies))]
@@ -14,6 +15,7 @@ namespace AI.Farmer
         public AI_Farmer_DeployCropsState state_deployCrops { get; private set; } = new AI_Farmer_DeployCropsState();
         public AI_Farmer_DeploySeedsState state_deploySeeds { get; private set; } = new AI_Farmer_DeploySeedsState();
         public AI_Farmer_GatherSeedsState state_gatherSeeds { get; private set; } = new AI_Farmer_GatherSeedsState();
+        private Coroutine lastStartState;
         private void Start()
         {
             dependencies = GetComponent<AI_Farmer_Dependencies>();
@@ -25,11 +27,13 @@ namespace AI.Farmer
             if(curState != null)
             {
                 curState.OnExitState(dependencies:dependencies);
-                StopCoroutine(curState.OnEnterState(dependencies: dependencies));
+                
+                if(lastStartState != null) 
+                    StopCoroutine(lastStartState);
             }
             //call new state OnEnterMethod
             curState = newState;
-            StartCoroutine(curState.OnEnterState(dependencies:dependencies));
+            lastStartState = StartCoroutine(curState.OnEnterState(dependencies:dependencies));
         }
         private void Update()
         {

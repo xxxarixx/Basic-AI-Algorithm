@@ -1,3 +1,4 @@
+using CropField;
 using General.Essencial;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,8 +18,9 @@ namespace AI.Farmer
             dependencies.MoveByPathfindingToDestination(LevelManager.instance.deployGatherChest.position,
             OnCompleteMoving: () =>
             {
-                bool thereAreAnySeedHoles = true;
-                if(thereAreAnySeedHoles)
+                int cropEmptyGroundsCount = CropField_Manager.instance.GetEmptyCropGroundsCount();
+
+                if (cropEmptyGroundsCount > 0)
                 {
                     dependencies.StartCoroutine(LevelManager.instance.GiveSeedsToFarmer(dependencies.inventory, onComplete:() =>
                     {
