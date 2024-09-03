@@ -6,7 +6,7 @@ using DG.Tweening;
 namespace CropField.Crops
 {
     [CreateAssetMenu(menuName ="Custom/CreateCrop",fileName ="new Crop")]
-    public class CropBase : ScriptableObject
+    public class CropAndSeedBase : ScriptableObject
     {
         private MeshRenderer renderer;
         public event Action OnEndedGrowing;
@@ -33,8 +33,10 @@ namespace CropField.Crops
             if (isGrowing) return;
             renderer.AddComponent<DestroySelf>().StartCounting(0.1f);
         }
-        public static void CreateCrop(Vector3 worldLocation,CropBase crop)
+        public static void CreateCrop(Vector3 worldLocation,CropAndSeedBase crop)
         {
+            if (crop == null)
+                return;
            GameObject createdCrop = Instantiate(CropDataBase.instance.cropGoPatern, worldLocation, Quaternion.identity);
            if(createdCrop.TryGetComponent(out MeshRenderer renderer))
            {

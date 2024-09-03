@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 5333463653465261882}
   - component: {fileID: 3813770781147107817}
   - component: {fileID: 5943988355026643005}
+  - component: {fileID: 6933664693244659265}
+  - component: {fileID: 5062367822045153391}
   m_Layer: 0
   m_Name: Actor_Ai_Farmer
   m_TagString: Untagged
@@ -110,14 +112,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11189b3108151ca4494e25afffd0ba80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6933664693244659265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911818620384729010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461a073dd4bce174a8ee1f4be489ad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: {fileID: 5062367822045153391}
+  stateManager: {fileID: 5943988355026643005}
   actorStatistics: {fileID: 11400000, guid: d3f6cdc1c0ab99d4da824db18699b917, type: 2}
   pathfinding: {fileID: 3813770781147107817}
-  farmsLocations:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+--- !u!114 &5062367822045153391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911818620384729010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80a2dce161d4a994db42be7a1688a55b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventorySlot:
+    currentHoldingCropOrSeed: {fileID: 0}
+    amount: 0
 --- !u!1 &6032438624099029937
 GameObject:
   m_ObjectHideFlags: 0

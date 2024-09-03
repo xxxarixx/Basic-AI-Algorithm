@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace Essencial
+namespace General.Essencial
 {
     [DefaultExecutionOrder(-1)]
     public class GameManager : MonoBehaviour

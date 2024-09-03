@@ -5,7 +5,8 @@ using System;
 using System.Diagnostics;
 using TMPro;
 using DG.Tweening;
-using Essencial;
+using General.Essencial;
+using Random = UnityEngine.Random;
 namespace DebugHelper
 {
     public static class DebugHelper
@@ -26,8 +27,8 @@ namespace DebugHelper
             tmpro.fontSize = 1f;
             gameObject.transform.SetParent(GameManager.instance.worldSpaceCanv.transform, worldPositionStays:true);
             rectTransform.sizeDelta = Vector3.one * 0.5f;
-            rectTransform.position = worldPosition;
-            rectTransform.Rotate(new Vector3(76.7f, 0f, 0f));
+            rectTransform.position = worldPosition + Random.Range(-0.5f, 0.5f) * Vector3.one;
+            rectTransform.Rotate(new Vector3(76.7f, Random.Range(-5,5), Random.Range(-5, 5)));
             tmpro.SetText(text);
             tmpro.color = color;
             tmpro.enableWordWrapping = false;

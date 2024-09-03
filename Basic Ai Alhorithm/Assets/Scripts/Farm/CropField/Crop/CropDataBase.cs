@@ -7,7 +7,7 @@ namespace CropField.Crops
     public class CropDataBase : MonoBehaviour
     {
         public static CropDataBase instance { get; private set; }
-        public CropBase tomato;
+        public CropAndSeedBase tomato;
         public GameObject cropGoPatern;
         private void Awake()
         {
