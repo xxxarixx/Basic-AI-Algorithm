@@ -13,15 +13,28 @@ namespace AI.Farmer
             AI_Farmer_StateManager stateManager = dependencies.stateManager;
             AI_Farmer_Inventory.InventoryItem inventorySlot = dependencies.inventory.inventorySlot;
             
-            bool thereIsAnyLeftSeedHoles = true;
             bool thereIsAnyCropToGather = true;
-            var foundedCropHole = CropField_Manager.instance.GetClosestEmptyCropGround(dependencies.transform);
-            yield return new WaitForSeconds(1f);
+            bool thereIsAnyLeftSeedHoles = true;
+            yield return new WaitForSeconds(AI_Farmer_Dependencies.timeBetweenPlant);
+            var foundedCropHole = CropField_Manager.instance.GetClosestEmptyCropGround(dependencies.transform, out int currentCountOfEmptyCropHoles);
+            if(inventorySlot.HasAnySeedsOrCrops && currentCountOfEmptyCropHoles > 0)
+            {
+                foundedCropHole.AddSeedToHole(inventorySlot.GetSeedFromInventory());
+                TextPopup(dependencies.transform.position + new Vector3(-10f, 10f, 0f),
+                    $"planting seed of {foundedCropHole.cropType.name}, left seeds {inventorySlot.amount} left holes:{currentCountOfEmptyCropHoles - 1}",
+                    foundedCropHole.cropType.startCropColor, 
+                    duration: 1.5f);
+                thereIsAnyLeftSeedHoles = currentCountOfEmptyCropHoles - 1 > 0;
+            }
+            else
+            {
+                thereIsAnyLeftSeedHoles = foundedCropHole != null && currentCountOfEmptyCropHoles > 0;
+            }
+
+            #region switchState
             //if have in inventory any seeds and there are any left seed holes
             if (inventorySlot.HasAnySeedsOrCrops && thereIsAnyLeftSeedHoles) 
             {
-                foundedCropHole.AddSeedToHole(inventorySlot.GetSeedFromInventory());
-                TextPopup(dependencies.transform.position + new Vector3(0f, 10f, 0f), $"planting seed, left seeds {inventorySlot.amount}", Color.green, duration: 1.5f);
                 stateManager.SetState(stateManager.state_FindEmptyCropGround);
             }
             //if DONT have in inventory any seeds and there ARE any left seed holes
@@ -37,15 +50,15 @@ namespace AI.Farmer
             //gather crops if there are any
             else if(thereIsAnyCropToGather)
             {
-                stateManager.SetState(stateManager.state_gatherCrops);
+                stateManager.SetState(stateManager.state_FindGrownCrops);
             }
             //wait there is nothing to do
             else
             {
                 stateManager.SetState(stateManager.state_waitForNewWork);
             }
+            #endregion
         }
-
         public override void OnExitState(AI_Farmer_Dependencies dependencies)
         {
             

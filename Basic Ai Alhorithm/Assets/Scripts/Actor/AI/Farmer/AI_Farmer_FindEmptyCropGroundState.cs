@@ -19,7 +19,6 @@ namespace AI.Farmer
             AI_Farmer_StateManager stateManager = dependencies.stateManager;
             AstarPathfinding pathfinding = dependencies.pathfinding;
             Transform transform = stateManager.transform;
-            Debug.Log("Entered patrol state");
             TextPopup(transform.position + new Vector3(0f, 10f, 0f), "Searching for crop holes", Color.white, duration: 0.5f);
             dependencies.MoveByPathfindingToDestination(FindEmptyCropSpace(stateManager),
             OnCompleteMoving: () =>
@@ -36,7 +35,7 @@ namespace AI.Farmer
 
         public override void OnUpdateState(AI_Farmer_Dependencies dependencies)
         {
-            Debug.Log("Updating patrol state");
+            
         }
         
         private Vector3 FindEmptyCropSpace(AI_Farmer_StateManager stateManager)

@@ -17,6 +17,9 @@ namespace AI.Farmer
         public ActorStatistics actorStatistics;
         public AstarPathfinding pathfinding;
         public MeshRenderer mRenderer;
+        public const float timeBetweenGather = 0.5f;
+        public const float timeBetweenDeploy = 0.25f;
+        public const float timeBetweenPlant = 1.0f;
 
         private LayerMask groundLayer = 1 << 3;
         private Ease movementEase = Ease.OutSine;

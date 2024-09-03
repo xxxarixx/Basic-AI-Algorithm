@@ -7,8 +7,9 @@ namespace AI.Farmer
         public AI_Farmer_Dependencies dependencies { get; private set; }
         public AI_Farmer_BaseState curState { get; private set; }
         public AI_Farmer_FindEmptyCropGroundState state_FindEmptyCropGround { get; private set; } = new AI_Farmer_FindEmptyCropGroundState();
+        public AI_Farmer_FindGrownCrop state_FindGrownCrops { get; private set; } = new AI_Farmer_FindGrownCrop();
         public AI_Farmer_PlantState state_plantSeed { get; private set; } = new AI_Farmer_PlantState();
-        public AI_Farmer_GatherCropsState state_gatherCrops { get; private set; } = new AI_Farmer_GatherCropsState();
+        public AI_Farmer_GatherCropsState state_gatherCrop { get; private set; } = new AI_Farmer_GatherCropsState();
         public AI_Farmer_WaitForNewWork state_waitForNewWork { get; private set; } = new AI_Farmer_WaitForNewWork();
         public AI_Farmer_DeployCropsState state_deployCrops { get; private set; } = new AI_Farmer_DeployCropsState();
         public AI_Farmer_DeploySeedsState state_deploySeeds { get; private set; } = new AI_Farmer_DeploySeedsState();

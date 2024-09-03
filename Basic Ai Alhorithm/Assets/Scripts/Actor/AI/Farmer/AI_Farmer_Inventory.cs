@@ -1,7 +1,9 @@
 using CropField.Crops;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static DebugHelper.DebugHelper;
 namespace AI.Farmer
 {
     /// <summary>
@@ -14,21 +16,52 @@ namespace AI.Farmer
         [System.Serializable]
         public class InventoryItem
         {
-            private CropAndSeedBase currentHoldingCropOrSeed;
+            public CropAndSeedBase currentHoldingCropOrSeed;
             public int amount { get; private set; } = 0;
+            public const int maxInventorySize = 10;
+            public bool isFull => amount >= maxInventorySize;
             public bool HasAnySeedsOrCrops => amount > 0;
             public CropAndSeedBase GetSeedFromInventory()
             {
                 if (!HasAnySeedsOrCrops)
                     return null;
                 amount--;
+                amount = Mathf.Clamp(amount, 0, maxInventorySize);
                 return currentHoldingCropOrSeed;
             }
             public void ChangeCurrentHoldingSeedOrCrop(CropAndSeedBase newCropOrSeed)
             {
                 currentHoldingCropOrSeed = newCropOrSeed;
             }
-            public int AddAmount(int toAdd) => amount += toAdd;
+            public IEnumerator DeploySeeds(Transform target,Action onComplete, bool popText = true)
+            {
+                for (int i = 0; i <= amount; i++)
+                {
+                    if(popText)
+                        TextPopup(target.position + new Vector3(0f, 10f, 0f), $"Deployed {currentHoldingCropOrSeed.name}!", Color.red, duration: 1f);
+                    AddAmount(-1);
+                    yield return new WaitForSeconds(AI_Farmer_Dependencies.timeBetweenDeploy);
+                }
+                ChangeCurrentHoldingSeedOrCrop(null);
+                onComplete?.Invoke();
+            }
+            public IEnumerator DeployCrops(Transform target, Action onComplete, bool popText = true)
+            {
+                for (int i = 0; i <= amount; i++)
+                {
+                    if (popText)
+                        TextPopup(target.position + new Vector3(0f, 10f, 0f), $"Deployed {currentHoldingCropOrSeed.name}!", Color.red, duration: 1f);
+                    AddAmount(-1);
+                    yield return new WaitForSeconds(AI_Farmer_Dependencies.timeBetweenDeploy);
+                }
+                ChangeCurrentHoldingSeedOrCrop(null);
+                onComplete?.Invoke();
+            }
+            public void AddAmount(int toAdd)
+            {
+                amount += toAdd;
+                amount = Mathf.Clamp(amount, 0, maxInventorySize);
+            }
         }
         public AI_Farmer_Dependencies dependencies { get; private set; }
         ///<summary>

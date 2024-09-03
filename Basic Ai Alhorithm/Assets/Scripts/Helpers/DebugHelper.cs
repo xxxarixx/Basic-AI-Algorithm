@@ -7,6 +7,7 @@ using TMPro;
 using DG.Tweening;
 using General.Essencial;
 using Random = UnityEngine.Random;
+using Debug = UnityEngine.Debug;
 namespace DebugHelper
 {
     public static class DebugHelper
@@ -37,6 +38,7 @@ namespace DebugHelper
             DestroySelf destroySelf = gameObject.AddComponent<DestroySelf>();
             destroySelf.StartCounting(duration);
             tmpro.DOColor(endValue: new Color(tmpro.color.r, tmpro.color.g, tmpro.color.b, 0f), duration).SetEase(Ease.InQuart);
+            Debug.Log(text);
         }
     }
 }

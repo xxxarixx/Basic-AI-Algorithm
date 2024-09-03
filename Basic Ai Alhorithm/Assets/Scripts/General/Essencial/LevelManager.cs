@@ -21,7 +21,7 @@ namespace General.Essencial
         {
             var currentHoldingCropOrSeed = CropDataBase.instance.tomato;
             inventory.inventorySlot.ChangeCurrentHoldingSeedOrCrop(currentHoldingCropOrSeed);
-            var randAmount = Random.Range(5, 10);
+            var randAmount = Random.Range(AI_Farmer_Inventory.InventoryItem.maxInventorySize / 2, AI_Farmer_Inventory.InventoryItem.maxInventorySize);
             for (int i = 1; i <= randAmount; i++)
             {
                 inventory.inventorySlot.AddAmount(1);
