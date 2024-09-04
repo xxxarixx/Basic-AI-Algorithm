@@ -10,23 +10,34 @@ namespace AI.Farmer
         public override IEnumerator OnEnterState(AI_Farmer_Dependencies dependencies)
         {
             Transform transform = dependencies.transform;
-            CropHole closestCropHole = CropField_Manager.instance.GetClosestFullGrownCrop(transform, dependencies.inventory.inventorySlot.currentHoldingCropOrSeed, out int grownCropsCount);
-            if(closestCropHole == null)
+            CropHole closestCropHole = CropField_Manager.instance.GetClosestFullGrownCrop(dependencies.idendity, dependencies.inventory.inventorySlot.currentHoldingCropOrSeed, out int grownCropsCount);
+            if (closestCropHole == null && dependencies.inventory.inventorySlot.HasAnySeedsOrCrops)
             {
                 //there was a mistake, shouldnt harvest crop
                 dependencies.stateManager.SetState(dependencies.stateManager.state_deployCrops);
                 yield return null;
             }
+            if(!closestCropHole.hasCropOrSeed)
+            {
+                dependencies.stateManager.SetState(dependencies.stateManager.state_FindGrownCrops);
+                yield return null;
+            }
+            yield return new WaitForSeconds(AI_Farmer_Dependencies.timeBetweenPlant);
             if (dependencies.inventory.inventorySlot.currentHoldingCropOrSeed == null)
                 dependencies.inventory.inventorySlot.currentHoldingCropOrSeed = closestCropHole.cropType;
             else if(dependencies.inventory.inventorySlot.currentHoldingCropOrSeed!= null &&
                 dependencies.inventory.inventorySlot.currentHoldingCropOrSeed != closestCropHole.cropType)
             {
-                //something wrong, wrong type of crop 
+                //something wrong!, wrong type of crop 
                 dependencies.stateManager.SetState(dependencies.stateManager.state_FindGrownCrops);
                 yield return null;
             }
-            yield return new WaitForSeconds(AI_Farmer_Dependencies.timeBetweenPlant);
+            if(!closestCropHole.hasCropOrSeed)
+            {
+                dependencies.stateManager.SetState(dependencies.stateManager.state_waitForNewWork);
+                yield return null;
+            }
+            dependencies.idendity.RemoveAssignFarmerToHole();
             dependencies.inventory.inventorySlot.AddAmount(1);
             closestCropHole.cropType.OnHarvested(closestCropHole);
             closestCropHole.RemoveCropFromCropHole();

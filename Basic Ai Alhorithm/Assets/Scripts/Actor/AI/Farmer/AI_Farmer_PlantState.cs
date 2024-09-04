@@ -15,8 +15,9 @@ namespace AI.Farmer
             
             bool thereIsAnyLeftSeedHoles = true;
             yield return new WaitForSeconds(AI_Farmer_Dependencies.timeBetweenPlant);
-            var foundedCropHole = CropField_Manager.instance.GetClosestEmptyCropGround(dependencies.transform, out int currentCountOfEmptyCropHoles);
-            if(inventorySlot.HasAnySeedsOrCrops && currentCountOfEmptyCropHoles > 0)
+            var foundedCropHole = CropField_Manager.instance.GetClosestEmptyCropGround(dependencies.idendity, out int currentCountOfEmptyCropHoles);
+            dependencies.idendity.RemoveAssignFarmerToHole();
+            if (inventorySlot.HasAnySeedsOrCrops && currentCountOfEmptyCropHoles > 0)
             {
                 foundedCropHole.AddSeedToHole(inventorySlot.GetSeedFromInventory());
                 currentCountOfEmptyCropHoles--;
@@ -41,7 +42,7 @@ namespace AI.Farmer
             }
             else
             {
-                grownCropsCount = CropField_Manager.instance.GetFullyGrownCropsCount();
+                grownCropsCount = CropField_Manager.instance.GetAllFullyGrownCropsCount(dependencies.idendity);
                 bool grownCropsSeemsToBeBetterOption = grownCropsCount > currentCountOfEmptyCropHoles;
 
                 //if have in inventory any seeds and there are not any left seed holes

@@ -9,8 +9,10 @@ using static DebugHelper.DebugHelper;
 
 namespace AI.Farmer
 {
+    [RequireComponent(typeof(Actor_Idendity))]
     public class AI_Farmer_Dependencies : MonoBehaviour
     {
+        public Actor_Idendity idendity { get; private set; }
         public AI_Farmer_Inventory inventory;
         public AI_Farmer_StateManager stateManager;
         public AI_Farmer_Apperance apperance;
@@ -23,6 +25,10 @@ namespace AI.Farmer
 
         private LayerMask groundLayer = 1 << 3;
         private Ease movementEase = Ease.OutSine;
+        private void Awake()
+        {
+            idendity = GetComponent<Actor_Idendity>();
+        }
         public void MoveByPoints(Transform moveTarget, List<Vector3> worldPositionPoints, Action OnCompleteMoving)
         {
             ///Convert pathfinding V3 world points to V3 world points based on ground elevation

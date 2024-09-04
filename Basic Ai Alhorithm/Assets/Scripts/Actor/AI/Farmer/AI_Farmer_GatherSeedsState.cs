@@ -18,14 +18,18 @@ namespace AI.Farmer
             dependencies.MoveByPathfindingToDestination(LevelManager.instance.deployGatherChest.position,
             OnCompleteMoving: () =>
             {
-                int cropEmptyGroundsCount = CropField_Manager.instance.GetEmptyCropGroundsCount();
-
+                int cropEmptyGroundsCount = CropField_Manager.instance.GetEmptyCropGroundsCount(dependencies.idendity);
+                Debug.Log(cropEmptyGroundsCount);
                 if (cropEmptyGroundsCount > 0)
                 {
                     dependencies.StartCoroutine(LevelManager.instance.GiveSeedsToFarmer(dependencies.inventory, onComplete:() =>
                     {
                         stateManager.SetState(stateManager.state_FindEmptyCropGround);
                     }));
+                }
+                else
+                {
+                    stateManager.SetState(stateManager.state_waitForNewWork);
                 }
             });
             yield return null;

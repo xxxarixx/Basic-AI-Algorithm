@@ -29,78 +29,72 @@ namespace CropField
                 }
             }
         }
-        public Vector3 GetClosestEmptyCropGroundPosition(Transform target)
+        #region Empty crop grounds
+        public Vector3 GetClosestEmptyCropGroundPosition(Actor_Idendity target)
         {
             List<Vector3> allEmptyCropGrounds = new List<Vector3>();
             cropFields.ForEach(cropField => 
             {
-                allEmptyCropGrounds.AddRange(cropField.cropHoleLocations.FindAll(cropHole => !cropHole.hasCrop).Select(x => x.worldLocation).ToArray());
+                allEmptyCropGrounds.AddRange(
+                    cropField.cropHoleLocations.FindAll(cropHole => 
+                    !cropHole.hasCropOrSeed && cropHole.CanIAccessThisHole(target))
+                    .Select(x => x.worldLocation).ToArray());
             });
-            var orderedList = allEmptyCropGrounds.OrderBy(x => Vector3.Distance(x, target.position));
+            var orderedList = allEmptyCropGrounds.OrderBy(x => Vector3.Distance(x, target.transform.position));
             
-            return orderedList.Count() == 0? target.position : orderedList.First();
+            return allEmptyCropGrounds.Count == 0? target.transform.position : orderedList.First();
         }
-        public CropHole GetClosestEmptyCropGround(Transform target, out int currentCount)
+        public CropHole GetClosestEmptyCropGround(Actor_Idendity target, out int currentCount)
+        {
+            currentCount = 0;
+            if (cropFields.Count == 0)
+                return default;
+            List<CropHole> allEmptyCropGrounds = new List<CropHole>();
+            cropFields.ForEach(cropField =>
+            {
+                allEmptyCropGrounds.AddRange(cropField.cropHoleLocations.FindAll(c => !c.hasCropOrSeed && c.CanIAccessThisHole(target)));
+            });
+            var ordered = allEmptyCropGrounds.OrderBy(x => Vector3.Distance(x.worldLocation, target.transform.position));
+            currentCount = allEmptyCropGrounds.Count;
+            if (currentCount == 0)
+                return null;
+            var closest = ordered.First();
+            return closest;
+        }
+        public int GetEmptyCropGroundsCount(Actor_Idendity target)
         {
             List<CropHole> allEmptyCropGrounds = new List<CropHole>();
             cropFields.ForEach(cropField =>
             {
-                allEmptyCropGrounds.AddRange(cropField.cropHoleLocations.FindAll(x => !x.hasCrop));
+                allEmptyCropGrounds.AddRange(cropField.cropHoleLocations.FindAll(c => !c.hasCropOrSeed && c.CanIAccessThisHole(target)));
             });
-            var ordered = allEmptyCropGrounds.OrderBy(x => Vector3.Distance(x.worldLocation, target.position));
-            currentCount = ordered.Count();
-            if (ordered.Count() == 0)
-                return null;
-            var closest = ordered.First();
-            return closest;
+            return allEmptyCropGrounds.Count;
         }
-        public int GetEmptyCropGroundsCount()
-        {
-            Dictionary<Vector3, CropHole> allEmptyCropGrounds = new Dictionary<Vector3, CropHole>();
-            cropFields.ForEach(cropField =>
-            {
-                foreach (var cropHole in cropField.cropHoleLocations)
-                {
-                    if (cropHole.hasCrop)
-                        continue;
-                    if (!allEmptyCropGrounds.ContainsKey(cropHole.worldLocation))
-                        allEmptyCropGrounds.Add(cropHole.worldLocation, cropHole);
-                }
-            });
-            return allEmptyCropGrounds.Count();
-        }
-        public CropHole GetClosestFullGrownCrop(Transform target, CropAndSeedBase targetCropToFind, out int count)
+        #endregion
+        #region Grown crop
+        public CropHole GetClosestFullGrownCrop(Actor_Idendity target, CropAndSeedBase targetCropToFind, out int count)
         {
             List<CropHole> cropHolesWithFullyGrownCrop = new List<CropHole>();
             cropFields.ForEach((cropField) =>
             {
-                if(targetCropToFind == null)
-                {
-                    //find any crop
-                    cropHolesWithFullyGrownCrop.AddRange(cropField.cropHoleLocations.FindAll(x => x.hasCrop && x.cropType.isFullyGrown));
-                }
-                else
-                {
-                    //find this pirticular type
-                    cropHolesWithFullyGrownCrop.AddRange(cropField.cropHoleLocations.FindAll(x => x.hasCrop && x.cropType == targetCropToFind && x.cropType.isFullyGrown));
-                }
+                cropHolesWithFullyGrownCrop.AddRange(cropField.cropHoleLocations.FindAll(c => c.CanIGatherThisCrop(targetCropToFind) && c.CanIAccessThisHole(target)));
             });
-            var ordered = cropHolesWithFullyGrownCrop.OrderBy(x => Vector3.Distance(x.worldLocation, target.position));
-            count = ordered.Count();
+            var ordered = cropHolesWithFullyGrownCrop.OrderBy(x => Vector3.Distance(x.worldLocation, target.transform.position));
+            count = cropHolesWithFullyGrownCrop.Count;
             if (count == 0)
                 return null;
-            var closest = ordered.First();
-            return closest;
+            return ordered.First();
         }
-        public int GetFullyGrownCropsCount()
+        public int GetAllFullyGrownCropsCount(Actor_Idendity target)
         {
             List<CropHole> cropHolesWithFullyGrownCrop = new List<CropHole>();
             cropFields.ForEach((cropField) =>
             {
-                cropHolesWithFullyGrownCrop.AddRange(cropField.cropHoleLocations.FindAll(x => x.hasCrop && x.cropType.isFullyGrown));
+                cropHolesWithFullyGrownCrop.AddRange(cropField.cropHoleLocations.FindAll(c => c.CanIGatherThisCrop(targetCropToFind:null) && c.CanIAccessThisHole(target)));
             });
             return cropHolesWithFullyGrownCrop.Count;
         }
+        #endregion
     }
 
 }

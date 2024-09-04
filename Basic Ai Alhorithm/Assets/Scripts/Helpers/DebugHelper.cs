@@ -35,9 +35,10 @@ namespace DebugHelper
             tmpro.enableWordWrapping = false;
             tmpro.fontStyle = FontStyles.Bold;
             rectTransform.DOAnchorPos3DZ(worldPosition.z + 1f, duration);
-            DestroySelf destroySelf = gameObject.AddComponent<DestroySelf>();
-            destroySelf.StartCounting(duration);
             tmpro.DOColor(endValue: new Color(tmpro.color.r, tmpro.color.g, tmpro.color.b, 0f), duration).SetEase(Ease.InQuart);
+            DestroySelf destroySelf = gameObject.AddComponent<DestroySelf>();
+            //safety reason for dotween to endeverything
+            destroySelf.StartCounting(duration + 1f);
             Debug.Log(text);
         }
     }

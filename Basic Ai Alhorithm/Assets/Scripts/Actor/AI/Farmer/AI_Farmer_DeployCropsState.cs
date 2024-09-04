@@ -17,8 +17,8 @@ namespace AI.Farmer
                 {
                     dependencies.StartCoroutine(dependencies.inventory.inventorySlot.DeployCrops(target: transform, onComplete: () =>
                     {
-                        int cropEmptyGroundsCount = CropField_Manager.instance.GetEmptyCropGroundsCount();
-                        int cropFullyGrownCount = CropField_Manager.instance.GetFullyGrownCropsCount();
+                        int cropEmptyGroundsCount = CropField_Manager.instance.GetEmptyCropGroundsCount(dependencies.idendity);
+                        int cropFullyGrownCount = CropField_Manager.instance.GetAllFullyGrownCropsCount(dependencies.idendity);
                         //think what will be more usefull
                         if (cropFullyGrownCount > cropEmptyGroundsCount)
                         {

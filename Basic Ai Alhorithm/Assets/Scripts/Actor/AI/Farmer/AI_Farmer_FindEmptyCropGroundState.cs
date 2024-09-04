@@ -19,8 +19,14 @@ namespace AI.Farmer
             AI_Farmer_StateManager stateManager = dependencies.stateManager;
             AstarPathfinding pathfinding = dependencies.pathfinding;
             Transform transform = stateManager.transform;
-            TextPopup(transform.position + new Vector3(0f, 10f, 0f), "Searching for crop holes", Color.white, duration: 0.5f);
-            dependencies.MoveByPathfindingToDestination(FindEmptyCropSpace(stateManager),
+            var foundedEmptyGround = FindEmptyCropSpace(dependencies);
+            if(foundedEmptyGround == null)
+            {
+                stateManager.SetState(stateManager.state_waitForNewWork);
+                yield return null;
+            }
+            TextPopup(transform.position + new Vector3(0f, 10f, 0f), $"Searching for crop holes, founded at:{foundedEmptyGround}", Color.white, duration: 0.5f);
+            dependencies.MoveByPathfindingToDestination(foundedEmptyGround,
             OnCompleteMoving: () =>
             {
                 stateManager.SetState(stateManager.state_plantSeed);
@@ -38,11 +44,15 @@ namespace AI.Farmer
             
         }
         
-        private Vector3 FindEmptyCropSpace(AI_Farmer_StateManager stateManager)
+        private Vector3 FindEmptyCropSpace(AI_Farmer_Dependencies dependencies)
         {
-            if (CropField_Manager.instance.cropFields.Count == 0)
+            var transform = dependencies.transform;
+            CropHole foundedClosestEmptyCropGround = CropField_Manager.instance.GetClosestEmptyCropGround(dependencies.idendity, out int currentCount);
+            if(foundedClosestEmptyCropGround == null)
                 return default;
-            return CropField_Manager.instance.GetClosestEmptyCropGroundPosition(stateManager.transform);
+
+            dependencies.idendity.AssignFarmerToHole(foundedClosestEmptyCropGround);
+            return foundedClosestEmptyCropGround.worldLocation;
         }
     }
 }

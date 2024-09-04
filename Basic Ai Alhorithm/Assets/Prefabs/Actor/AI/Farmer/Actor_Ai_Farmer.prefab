@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6933664693244659265}
   - component: {fileID: 5062367822045153391}
   - component: {fileID: 7308467611672909249}
+  - component: {fileID: 6202858103926338102}
   m_Layer: 6
   m_Name: Actor_Ai_Farmer
   m_TagString: Untagged
@@ -143,6 +144,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80a2dce161d4a994db42be7a1688a55b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventorySlot:
+    currentHoldingCropOrSeed: {fileID: 0}
 --- !u!114 &7308467611672909249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,6 +162,18 @@ MonoBehaviour:
   greenMat: {fileID: 2100000, guid: 74117f645ca87544896e430b75e9a316, type: 2}
   brownMat: {fileID: 2100000, guid: 9f74a13152dad544abedc7538eb3182c, type: 2}
   defaultMat: {fileID: 2100000, guid: d76d5dba59c8a824a8170635648a356c, type: 2}
+--- !u!114 &6202858103926338102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911818620384729010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4947332fd2aea744c9b5e4669d090549, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6032438624099029937
 GameObject:
   m_ObjectHideFlags: 0

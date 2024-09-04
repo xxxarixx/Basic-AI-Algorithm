@@ -11,7 +11,7 @@ namespace AI.Farmer
         {
             TextPopup(dependencies.transform.position + new Vector3(0f, 10f, 0f), "finding crops!", Color.yellow, duration: 1f);
             Transform transform = dependencies.transform;
-            var closestCrop = CropField_Manager.instance.GetClosestFullGrownCrop(transform, dependencies.inventory.inventorySlot.currentHoldingCropOrSeed, out int grownCropsCount);
+            var closestCrop = CropField_Manager.instance.GetClosestFullGrownCrop(dependencies.idendity, dependencies.inventory.inventorySlot.currentHoldingCropOrSeed, out int grownCropsCount);
             if (closestCrop == null)
             {
                 //there is no crops left, deploy left crops
@@ -19,6 +19,7 @@ namespace AI.Farmer
             }
             else
             {
+                dependencies.idendity.AssignFarmerToHole(closestCrop);
                 //move to closest crop
                 dependencies.MoveByPathfindingToDestination(destination:closestCrop.worldLocation,
                     OnCompleteMoving:() =>
