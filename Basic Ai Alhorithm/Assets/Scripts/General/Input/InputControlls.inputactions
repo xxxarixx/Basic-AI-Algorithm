@@ -88,6 +88,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Keyboard",
+            "id": "8fdee38d-f9b6-4af8-9980-77172bc03082",
+            "actions": [
+                {
+                    "name": "FastForwardKeyTap",
+                    "type": "Button",
+                    "id": "4fba7eae-86d2-4d1f-9080-ed4b807e3ab8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Tap",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AutoFocusKeyTap",
+                    "type": "Button",
+                    "id": "77314067-d966-4d9a-83ff-92a53e3acc71",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Tap",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "51a6a54f-ae95-48a0-9106-60ea767ef01d",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "FastForwardKeyTap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6bc91510-d006-48ee-ac26-1d0e598e865b",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AutoFocusKeyTap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

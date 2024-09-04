@@ -15,8 +15,9 @@ namespace Astar.Brain
         private Coroutine curActivePath;
         private class NodeFlag
         {
-            ///Weird stair behaviour with pathing left top and right bottom propably something is messed up with costs
-            ///time spend on trying to fix it 2h
+            ///NOTE for future me:
+            ///Weird stair behaviour with pathing left top and right bottom probably something is messed up with costs
+            ///time spend on trying to fix it 2h+
 
             /// <summary>
             /// mainly for backtracing path

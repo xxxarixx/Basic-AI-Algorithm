@@ -110,6 +110,54 @@ public partial class @InputControlls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Keyboard"",
+            ""id"": ""8fdee38d-f9b6-4af8-9980-77172bc03082"",
+            ""actions"": [
+                {
+                    ""name"": ""FastForwardKeyTap"",
+                    ""type"": ""Button"",
+                    ""id"": ""4fba7eae-86d2-4d1f-9080-ed4b807e3ab8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AutoFocusKeyTap"",
+                    ""type"": ""Button"",
+                    ""id"": ""77314067-d966-4d9a-83ff-92a53e3acc71"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Tap"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""51a6a54f-ae95-48a0-9106-60ea767ef01d"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""FastForwardKeyTap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6bc91510-d006-48ee-ac26-1d0e598e865b"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AutoFocusKeyTap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -126,6 +174,10 @@ public partial class @InputControlls: IInputActionCollection2, IDisposable
         m_Mouse_PrimaryBtnTap = m_Mouse.FindAction("PrimaryBtnTap", throwIfNotFound: true);
         m_Mouse_MousePosition = m_Mouse.FindAction("MousePosition", throwIfNotFound: true);
         m_Mouse_MouseScroll = m_Mouse.FindAction("MouseScroll", throwIfNotFound: true);
+        // Keyboard
+        m_Keyboard = asset.FindActionMap("Keyboard", throwIfNotFound: true);
+        m_Keyboard_FastForwardKeyTap = m_Keyboard.FindAction("FastForwardKeyTap", throwIfNotFound: true);
+        m_Keyboard_AutoFocusKeyTap = m_Keyboard.FindAction("AutoFocusKeyTap", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -253,6 +305,60 @@ public partial class @InputControlls: IInputActionCollection2, IDisposable
         }
     }
     public MouseActions @Mouse => new MouseActions(this);
+
+    // Keyboard
+    private readonly InputActionMap m_Keyboard;
+    private List<IKeyboardActions> m_KeyboardActionsCallbackInterfaces = new List<IKeyboardActions>();
+    private readonly InputAction m_Keyboard_FastForwardKeyTap;
+    private readonly InputAction m_Keyboard_AutoFocusKeyTap;
+    public struct KeyboardActions
+    {
+        private @InputControlls m_Wrapper;
+        public KeyboardActions(@InputControlls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @FastForwardKeyTap => m_Wrapper.m_Keyboard_FastForwardKeyTap;
+        public InputAction @AutoFocusKeyTap => m_Wrapper.m_Keyboard_AutoFocusKeyTap;
+        public InputActionMap Get() { return m_Wrapper.m_Keyboard; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(KeyboardActions set) { return set.Get(); }
+        public void AddCallbacks(IKeyboardActions instance)
+        {
+            if (instance == null || m_Wrapper.m_KeyboardActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_KeyboardActionsCallbackInterfaces.Add(instance);
+            @FastForwardKeyTap.started += instance.OnFastForwardKeyTap;
+            @FastForwardKeyTap.performed += instance.OnFastForwardKeyTap;
+            @FastForwardKeyTap.canceled += instance.OnFastForwardKeyTap;
+            @AutoFocusKeyTap.started += instance.OnAutoFocusKeyTap;
+            @AutoFocusKeyTap.performed += instance.OnAutoFocusKeyTap;
+            @AutoFocusKeyTap.canceled += instance.OnAutoFocusKeyTap;
+        }
+
+        private void UnregisterCallbacks(IKeyboardActions instance)
+        {
+            @FastForwardKeyTap.started -= instance.OnFastForwardKeyTap;
+            @FastForwardKeyTap.performed -= instance.OnFastForwardKeyTap;
+            @FastForwardKeyTap.canceled -= instance.OnFastForwardKeyTap;
+            @AutoFocusKeyTap.started -= instance.OnAutoFocusKeyTap;
+            @AutoFocusKeyTap.performed -= instance.OnAutoFocusKeyTap;
+            @AutoFocusKeyTap.canceled -= instance.OnAutoFocusKeyTap;
+        }
+
+        public void RemoveCallbacks(IKeyboardActions instance)
+        {
+            if (m_Wrapper.m_KeyboardActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IKeyboardActions instance)
+        {
+            foreach (var item in m_Wrapper.m_KeyboardActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_KeyboardActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public KeyboardActions @Keyboard => new KeyboardActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -268,5 +374,10 @@ public partial class @InputControlls: IInputActionCollection2, IDisposable
         void OnPrimaryBtnTap(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
         void OnMouseScroll(InputAction.CallbackContext context);
+    }
+    public interface IKeyboardActions
+    {
+        void OnFastForwardKeyTap(InputAction.CallbackContext context);
+        void OnAutoFocusKeyTap(InputAction.CallbackContext context);
     }
 }

@@ -5,7 +5,9 @@ using System;
 using System.Diagnostics;
 using TMPro;
 using DG.Tweening;
-using Essencial;
+using General.Essencial;
+using Random = UnityEngine.Random;
+using Debug = UnityEngine.Debug;
 namespace DebugHelper
 {
     public static class DebugHelper
@@ -26,16 +28,18 @@ namespace DebugHelper
             tmpro.fontSize = 1f;
             gameObject.transform.SetParent(GameManager.instance.worldSpaceCanv.transform, worldPositionStays:true);
             rectTransform.sizeDelta = Vector3.one * 0.5f;
-            rectTransform.position = worldPosition;
-            rectTransform.Rotate(new Vector3(76.7f, 0f, 0f));
+            rectTransform.position = worldPosition + Random.Range(-0.5f, 0.5f) * Vector3.one;
+            rectTransform.Rotate(new Vector3(76.7f, Random.Range(-5,5), Random.Range(-5, 5)));
             tmpro.SetText(text);
             tmpro.color = color;
             tmpro.enableWordWrapping = false;
             tmpro.fontStyle = FontStyles.Bold;
             rectTransform.DOAnchorPos3DZ(worldPosition.z + 1f, duration);
-            DestroySelf destroySelf = gameObject.AddComponent<DestroySelf>();
-            destroySelf.StartCounting(duration);
             tmpro.DOColor(endValue: new Color(tmpro.color.r, tmpro.color.g, tmpro.color.b, 0f), duration).SetEase(Ease.InQuart);
+            DestroySelf destroySelf = gameObject.AddComponent<DestroySelf>();
+            //safety reason for dotween to endeverything
+            destroySelf.StartCounting(duration + 1f);
+            Debug.Log(text);
         }
     }
 }
