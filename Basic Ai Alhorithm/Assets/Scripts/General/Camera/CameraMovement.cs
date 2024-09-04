@@ -3,6 +3,7 @@ using DG.Tweening;
 using General;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static General.InputHandler;
 namespace General
@@ -23,6 +24,8 @@ namespace General
         private bool isDragging = false;
         private Camera cam;
         private LayerMask farmerLayer = 1 << 6;
+        private int currentFastFocusedIndex = 0;
+        private List<AI_Farmer_Dependencies> farmers = new List<AI_Farmer_Dependencies>();
         private enum FocusTarget
         {
             Farmer,
@@ -39,7 +42,12 @@ namespace General
             {
                 newZoomValue = 10f;
             }
-        
+            UpdateListOfActorsToWatch();
+        }
+        public void UpdateListOfActorsToWatch()
+        {
+            farmers.Clear();
+            farmers.AddRange(FindObjectsByType<AI_Farmer_Dependencies>(findObjectsInactive:FindObjectsInactive.Exclude, sortMode: FindObjectsSortMode.None));
         }
         private void OnEnable()
         {
@@ -137,7 +145,14 @@ namespace General
         }
         private void OnAutoFocusKeyTap()
         {
-            AI_Farmer_Dependencies foundedFarmer = FindObjectOfType<AI_Farmer_Dependencies>();
+            if(currentFastFocusedIndex > 0)
+            {
+                farmers[currentFastFocusedIndex - 1].apperance.ResetToDefaultColor();
+            }
+            var foundedFarmer = farmers[currentFastFocusedIndex];
+            currentFastFocusedIndex++;
+            if (currentFastFocusedIndex >= farmers.Count)
+                currentFastFocusedIndex = 0;
             if (foundedFarmer == null)
                 return;
             FocusOnFarmer(foundedFarmer);
