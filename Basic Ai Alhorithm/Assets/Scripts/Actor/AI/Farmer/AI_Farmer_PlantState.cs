@@ -21,10 +21,13 @@ namespace AI.Farmer
             {
                 foundedCropHole.AddSeedToHole(inventorySlot.GetSeedFromInventory());
                 currentCountOfEmptyCropHoles--;
-                TextPopup(dependencies.transform.position + new Vector3(-10f, 10f, 0f),
-                    $"planting seed of {foundedCropHole.cropType.name}, left seeds {inventorySlot.amount} left holes:{currentCountOfEmptyCropHoles - 1}",
-                    foundedCropHole.cropType.startCropColor, 
-                    duration: 1.5f);
+                if(foundedCropHole != null && foundedCropHole.cropType != null)
+                {
+                    TextPopup(dependencies.transform.position + new Vector3(-10f, 10f, 0f),
+                        $"planting seed of {foundedCropHole.cropType.name}, left seeds {inventorySlot.amount} left holes:{currentCountOfEmptyCropHoles - 1}",
+                        foundedCropHole.cropType.startCropColor, 
+                        duration: 1.5f);
+                }
                 thereIsAnyLeftSeedHoles = currentCountOfEmptyCropHoles > 0;
             }
             else
