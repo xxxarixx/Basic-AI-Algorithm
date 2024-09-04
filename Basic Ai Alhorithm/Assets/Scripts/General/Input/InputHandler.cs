@@ -76,6 +76,14 @@ namespace General
                 PrimaryBtn_performed();
             }
             RecalculateMousePositions();
+            if(Keyboard.current.f1Key.wasPressedThisFrame)
+            {
+                TakeScreenShot();
+            }
+        }
+        private void TakeScreenShot()
+        {
+            ScreenCapture.CaptureScreenshot(filename:"Assets/ScreenShots/ScreenShot.jpg");
         }
         private void PrimaryBtn_performed()
         {
