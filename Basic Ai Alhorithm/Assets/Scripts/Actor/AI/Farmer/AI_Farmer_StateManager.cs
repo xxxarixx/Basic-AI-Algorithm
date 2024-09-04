@@ -1,3 +1,6 @@
+using Astar.Brain;
+using General.Essencial;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 namespace AI.Farmer
@@ -19,8 +22,21 @@ namespace AI.Farmer
         private void Start()
         {
             dependencies = GetComponent<AI_Farmer_Dependencies>();
+        }
+        private void OnEnable()
+        {
+            GameManager.instance.onEverythingSetupped += OnGameReady;
+        }
+
+        private void OnDisable()
+        {
+            GameManager.instance.onEverythingSetupped -= OnGameReady;
+        }
+        private void OnGameReady()
+        {
             SetState(state_gatherSeeds);
         }
+
         public void SetState(AI_Farmer_BaseState newState)
         {
             //call last state OnExitMethod

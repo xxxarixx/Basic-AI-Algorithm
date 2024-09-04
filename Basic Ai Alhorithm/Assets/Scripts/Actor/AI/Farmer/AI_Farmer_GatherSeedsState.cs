@@ -1,4 +1,5 @@
 using CropField;
+using General.Containers;
 using General.Essencial;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,15 +15,15 @@ namespace AI.Farmer
             Astar.Brain.AstarPathfinding pathfinding = dependencies.pathfinding;
             Transform transform = dependencies.transform;
             AI_Farmer_StateManager stateManager = dependencies.stateManager;
+            Chest closestChest = ChestsManager.instance.FindNearestChest(dependencies.idendity);
 
-            dependencies.MoveByPathfindingToDestination(LevelManager.instance.deployGatherChest.position,
+            dependencies.MoveByPathfindingToDestination(closestChest.transform.position,
             OnCompleteMoving: () =>
             {
                 int cropEmptyGroundsCount = CropField_Manager.instance.GetEmptyCropGroundsCount(dependencies.idendity);
-                Debug.Log(cropEmptyGroundsCount);
                 if (cropEmptyGroundsCount > 0)
                 {
-                    dependencies.StartCoroutine(LevelManager.instance.GiveSeedsToFarmer(dependencies.inventory, onComplete:() =>
+                    dependencies.StartCoroutine(closestChest.GiveSeedsToFarmer(dependencies.inventory, onComplete:() =>
                     {
                         stateManager.SetState(stateManager.state_FindEmptyCropGround);
                     }));

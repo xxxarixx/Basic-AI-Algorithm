@@ -1,4 +1,5 @@
 using CropField;
+using General.Containers;
 using General.Essencial;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,7 +14,8 @@ namespace AI.Farmer
             Transform transform = dependencies.transform;
             TextPopup(transform.position + new Vector3(0f, 10f, 0f), "Deploying seeds!", Color.green, duration: 1f);
             Debug.Log("Deploy seeds state");
-            dependencies.MoveByPathfindingToDestination(destination: LevelManager.instance.deployGatherChest.transform.position,
+            Chest closestChest = ChestsManager.instance.FindNearestChest(dependencies.idendity);
+            dependencies.MoveByPathfindingToDestination(destination: closestChest.transform.position,
                 OnCompleteMoving: () =>
                 {
                     //start deploing

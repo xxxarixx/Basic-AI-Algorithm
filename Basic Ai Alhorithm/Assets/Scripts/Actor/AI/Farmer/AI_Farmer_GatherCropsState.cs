@@ -17,6 +17,11 @@ namespace AI.Farmer
                 dependencies.stateManager.SetState(dependencies.stateManager.state_deployCrops);
                 yield return null;
             }
+            else if(closestCropHole == null && !dependencies.inventory.inventorySlot.HasAnySeedsOrCrops)
+            {
+                dependencies.stateManager.SetState(dependencies.stateManager.state_gatherSeeds);
+                yield return null;
+            }
             if(!closestCropHole.hasCropOrSeed)
             {
                 dependencies.stateManager.SetState(dependencies.stateManager.state_FindGrownCrops);

@@ -7,16 +7,10 @@ using UnityEngine;
 using static DebugHelper.DebugHelper;
 using Random = UnityEngine.Random;
 
-namespace General.Essencial
+namespace General.Containers
 {
-    public class LevelManager : MonoBehaviour
+    public class Chest : MonoBehaviour
     {
-        public static LevelManager instance { get; private set; }
-        public Transform deployGatherChest;
-        private void Awake()
-        {
-            instance = this;
-        }
         public IEnumerator GiveSeedsToFarmer(AI_Farmer_Inventory inventory, Action onComplete)
         {
             var currentHoldingCropOrSeed = CropDataBase.instance.tomato;
@@ -25,9 +19,9 @@ namespace General.Essencial
             for (int i = 1; i <= randAmount; i++)
             {
                 inventory.inventorySlot.AddAmount(1);
-                TextPopup(inventory.transform.position + new Vector3(0f, 10f, 0f), 
-                    $"Got {currentHoldingCropOrSeed.name} x{inventory.inventorySlot.amount}", 
-                    currentHoldingCropOrSeed.endCropColor, 
+                TextPopup(inventory.transform.position + new Vector3(0f, 10f, 0f),
+                    $"Got {currentHoldingCropOrSeed.name} x{inventory.inventorySlot.amount}",
+                    currentHoldingCropOrSeed.endCropColor,
                     duration: 0.4f);
                 yield return new WaitForSeconds(0.5f);
             }

@@ -15,7 +15,6 @@ namespace Astar.Brain
     {
         public static AstarBrain instance { get; private set; }
         [Header("Map")]
-        [SerializeField] private Transform obstacleFolder;
         [SerializeField] private Vector3Int _inspMapSize = new Vector3Int(100,1,100);
         [SerializeField] private Vector3 _InspCenter;
         public Vector3 center => _InspCenter;
@@ -27,7 +26,8 @@ namespace Astar.Brain
         public int depth => _inspMapSize.z;
         [SerializeField]private float _InspGridSize = 1f;
         public float gridSize => _InspGridSize==0? 1: _InspGridSize;
-        public bool setupped => grid.Count > 0;
+        public bool setupped => grid.Count > 0 && doneObstacleFinding;
+        private bool doneObstacleFinding = false;
         public bool debugModeOn = true;
         public bool scanOnValidate = true;
         /// <summary>
@@ -116,17 +116,14 @@ namespace Astar.Brain
         /// </summary>
         private void AutoAddObstacles()
         {
-            if (obstacleFolder == null)
-                return;
-            
-            foreach (Transform obstacleTransform in obstacleFolder)
+            PathfindingObstacle[] obstacles = FindObjectsByType<PathfindingObstacle>(sortMode:FindObjectsSortMode.None,findObjectsInactive:FindObjectsInactive.Exclude);
+            foreach (PathfindingObstacle obstacle in obstacles)
             {
-                if (obstacleTransform.TryGetComponent(out PathfindingObstacle obstacle))
-                {
-                    obstacle.ProjectObstacleOnGrid();
-                }
+                if (obstacle == null)
+                    continue;
+                obstacle.ProjectObstacleOnGrid();
             }
-            
+            doneObstacleFinding = true;
         }
         /// <summary>
         /// Add single obstacle

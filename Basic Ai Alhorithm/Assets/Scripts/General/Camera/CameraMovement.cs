@@ -132,7 +132,8 @@ namespace General
                 return;
             ///end dragging
             isDragging = false;
-            transform.DOMove(transform.position + new Vector3(destinationPosition.x,0f, destinationPosition.z),duration:0.25f).SetEase(Ease.OutQuad);
+            var newPosition = transform.position + new Vector3(destinationPosition.x, 0f, destinationPosition.z);
+            transform.DOMove(ClampPositionToBounds(newPosition),duration:0.25f).SetEase(Ease.OutQuad);
         }
         private void OnAutoFocusKeyTap()
         {
@@ -173,6 +174,13 @@ namespace General
                 x: Mathf.Clamp(transform.position.x, center.x - cameraBounds.x, center.x + cameraBounds.x),
                 y: Mathf.Clamp(transform.position.y, center.y - cameraBounds.y, center.y + cameraBounds.y),
                 z: Mathf.Clamp(transform.position.z, center.z - cameraBounds.z, center.z + cameraBounds.z));
+        }
+        private Vector3 ClampPositionToBounds(Vector3 position)
+        {
+            return new Vector3(
+                x: Mathf.Clamp(position.x, center.x - cameraBounds.x, center.x + cameraBounds.x),
+                y: Mathf.Clamp(position.y, center.y - cameraBounds.y, center.y + cameraBounds.y),
+                z: Mathf.Clamp(position.z, center.z - cameraBounds.z, center.z + cameraBounds.z));
         }
     }
 }
