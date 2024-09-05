@@ -44,7 +44,8 @@ Linear:__________________________Bezier curve:<br>
 -Wait for new work => if there is no work to do or something went wrong, safe state <br>
 #### UI <br>
 * Debugging friendly with text popups
-* Ability to change simulation speed in runtime 
+* Ability to change simulation speed in runtime
+* Visual showcase of farmers job statistics
 
 #### Technical Details: <br>
 Packages: URP, DOTween, GridBox Prototype Materials, TextMeshPro <br>
