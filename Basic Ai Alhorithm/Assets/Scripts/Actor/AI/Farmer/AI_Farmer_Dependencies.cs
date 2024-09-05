@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static DebugHelper.DebugHelper;
+using Random = UnityEngine.Random;
 
 namespace AI.Farmer
 {
@@ -21,7 +22,7 @@ namespace AI.Farmer
         public MeshRenderer mRenderer;
         public const float timeBetweenGather = 0.5f;
         public const float timeBetweenDeploy = 0.25f;
-        public const float timeBetweenPlant = 1.0f;
+        public const float timeBetweenPlant = 0.5f;
 
         private LayerMask groundLayer = 1 << 3;
         private Ease movementEase = Ease.OutSine;

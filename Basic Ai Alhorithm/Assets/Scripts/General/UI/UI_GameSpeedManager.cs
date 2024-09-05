@@ -45,7 +45,7 @@ namespace General.UI
         private void UpdateTimeScale()
         {
             Time.timeScale = speedValues[currentSelectedSpdValue];
-            speedValueText.SetText($"Current speed:<br> {Time.timeScale}x");
+            speedValueText.SetText($"Current speed:<br> <color=#EE8F42>{Time.timeScale}x</color>");
         }
     }
 }
