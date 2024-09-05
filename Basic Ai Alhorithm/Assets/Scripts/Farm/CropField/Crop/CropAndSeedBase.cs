@@ -3,6 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using DG;
 using DG.Tweening;
+using Random = UnityEngine.Random;
 namespace CropField.Crops
 {
     [CreateAssetMenu(menuName ="Custom/CreateCrop",fileName ="new Crop")]
@@ -21,8 +22,10 @@ namespace CropField.Crops
             renderer.material.color = startCropColor;
             isGrowing = true;
             renderer.transform.localScale = startSize;
-            renderer.transform.DOScale(endValue: endSize, duration: growTimeInS);
-            renderer.material.DOColor(endValue: endCropColor, duration: growTimeInS).OnComplete(() =>
+            var endSizeWithRandomFactor = endSize + new Vector3(Random.Range(endSize.x / 5, endSize.x / 3), Random.Range(endSize.x / 5, endSize.x / 3), Random.Range(endSize.x / 5, endSize.x / 3));
+            float growTimeWithRandomFactor = Random.Range(growTimeInS / 5, growTimeInS / 3);
+            renderer.transform.DOScale(endValue: endSizeWithRandomFactor, duration: growTimeWithRandomFactor);
+            renderer.material.DOColor(endValue: endCropColor, duration: growTimeWithRandomFactor).OnComplete(() =>
             {
                 isGrowing = false;
                 OnEndedGrowing?.Invoke();

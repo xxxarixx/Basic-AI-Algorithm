@@ -119,7 +119,7 @@ namespace General
             if (!isDragging)
                 return;
             Vector3 positionDelta = instance.mouseWorldPosition - dragOrigin;
-            Vector3 move = -positionDelta * moveSpeed * Time.deltaTime;
+            Vector3 move = -positionDelta * moveSpeed * Time.unscaledDeltaTime;
             destinationPosition = new Vector3(move.x, 0f, move.z);
             transform.Translate(destinationPosition, Space.World);
             ClampCameraToBounds();
@@ -168,7 +168,7 @@ namespace General
             if (cameraFocus != FocusTarget.Farmer)
                 return;
             Vector3 correctionPosition = new Vector3(-1f, 0f, -3f);
-            var newPosition = Vector3.Lerp(transform.position, focusTarget.position + correctionPosition, Time.deltaTime * moveSpeed);
+            var newPosition = Vector3.Lerp(transform.position, focusTarget.position + correctionPosition, Time.unscaledDeltaTime * moveSpeed);
             transform.position = new Vector3(newPosition.x, transform.position.y, newPosition.z);
         }
         private void ScrollMovementSmoothess()
@@ -176,11 +176,11 @@ namespace General
             ///perspective camera logick
             if(!cam.orthographic)
             {
-                transform.DOMoveY(newZoomValue,duration:zoomSmoothness).SetEase(Ease.OutQuad);
+                transform.DOMoveY(newZoomValue,duration:zoomSmoothness).SetEase(Ease.OutQuad).SetUpdate(isIndependentUpdate:true);
             }
             else
             {
-                cam.DOOrthoSize(newZoomValue, duration: zoomSmoothness).SetEase(Ease.OutQuad);
+                cam.DOOrthoSize(newZoomValue, duration: zoomSmoothness).SetEase(Ease.OutQuad).SetUpdate(isIndependentUpdate: true);
             }
         }
         private void ClampCameraToBounds()
