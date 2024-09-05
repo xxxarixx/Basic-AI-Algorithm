@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07d8283707aa54849b6c1d3c2f7e6800, type: 3}
+  m_Name: Cereal
+  m_EditorClassIdentifier: 
+  growTimeInS: 80
+  startCropColor: {r: 0.37186024, g: 0.5471698, b: 0.2710039, a: 1}
+  endCropColor: {r: 0.8773585, g: 0.6674478, b: 0.2027857, a: 1}
+  startSize: {x: 0.1, y: 0.2, z: 0.1}
+  endSize: {x: 0.3, y: 4, z: 0.3}

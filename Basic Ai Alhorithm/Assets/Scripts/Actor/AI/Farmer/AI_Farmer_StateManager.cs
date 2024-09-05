@@ -1,5 +1,6 @@
 using Astar.Brain;
 using General.Essencial;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
@@ -8,11 +9,12 @@ namespace AI.Farmer
     [RequireComponent(typeof(AI_Farmer_Dependencies))]
     public class AI_Farmer_StateManager : MonoBehaviour
     {
+        public event Action<AI_Farmer_BaseState> OnChangeState;
         public AI_Farmer_Dependencies dependencies { get; private set; }
         public AI_Farmer_BaseState curState { get; private set; }
         public AI_Farmer_FindEmptyCropGroundState state_FindEmptyCropGround { get; private set; } = new AI_Farmer_FindEmptyCropGroundState();
         public AI_Farmer_FindGrownCrop state_FindGrownCrops { get; private set; } = new AI_Farmer_FindGrownCrop();
-        public AI_Farmer_PlantState state_plantSeed { get; private set; } = new AI_Farmer_PlantState();
+        public AI_Farmer_PlantSeedState state_plantSeed { get; private set; } = new AI_Farmer_PlantSeedState();
         public AI_Farmer_GatherCropsState state_gatherCrop { get; private set; } = new AI_Farmer_GatherCropsState();
         public AI_Farmer_WaitForNewWork state_waitForNewWork { get; private set; } = new AI_Farmer_WaitForNewWork();
         public AI_Farmer_DeployCropsState state_deployCrops { get; private set; } = new AI_Farmer_DeployCropsState();
@@ -49,6 +51,7 @@ namespace AI.Farmer
             }
             //call new state OnEnterMethod
             curState = newState;
+            OnChangeState?.Invoke(newState);
             lastStartState = StartCoroutine(curState.OnEnterState(dependencies:dependencies));
         }
         private void Update()

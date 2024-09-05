@@ -373,7 +373,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'F key => speed forward
 
-    A key => focus on first farmer'
+    A key => auto focus on farmer'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5ed8d42e3fbf8b042bb1a369a6fb04e4, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 5ed8d42e3fbf8b042bb1a369a6fb04e4, type: 2}
@@ -763,7 +763,7 @@ Transform:
   m_LocalScale: {x: 0.74, y: 0.73, z: 0.57}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2082276659742621710}
+  m_Father: {fileID: 8451530768520405407}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7523471505109661845
 MeshFilter:
@@ -890,7 +890,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4673320619002173814}
   m_Father: {fileID: 2082276659742621710}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5389133038811441588
@@ -905,7 +906,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855fe2781cf7e644b92ff9e3bbce0eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleFolder: {fileID: 0}
   _inspMapSize: {x: 153, y: 1, z: 181}
   _InspCenter: {x: 40.6, y: 0, z: 40.8}
   _InspGridSize: 0.5
@@ -938,6 +938,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2082276659742621710}
   - component: {fileID: 3029768349501722787}
+  - component: {fileID: 3819909922136493857}
   m_Layer: 0
   m_Name: ===General===
   m_TagString: Untagged
@@ -963,7 +964,6 @@ Transform:
   - {fileID: 3429120990039959445}
   - {fileID: 8451530768520405407}
   - {fileID: 1444523941097872113}
-  - {fileID: 4673320619002173814}
   - {fileID: 1429224194089082812}
   - {fileID: 5175900370563778525}
   - {fileID: 2300393723142590760}
@@ -983,6 +983,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldSpaceCanv: {fileID: 1123736177522497427}
+--- !u!114 &3819909922136493857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6714988458478483273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2c6c02e65a2abc4fb01c23e3a844dba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6737741393665369312
 GameObject:
   m_ObjectHideFlags: 0
@@ -1336,6 +1348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tomato: {fileID: 11400000, guid: 8629e85dadcdcea4ea7052b083b5b390, type: 2}
+  cereal: {fileID: 11400000, guid: 76265519d2e52c54b8e232959f47cd72, type: 2}
   cropGoPatern: {fileID: 6939885563600264297, guid: 17fc1185eadaef1459af67fce8e2f815,
     type: 3}
 --- !u!1 &8189232967770902604

@@ -17,22 +17,12 @@ namespace AI.Farmer
                 dependencies.stateManager.SetState(dependencies.stateManager.state_deployCrops);
                 yield return null;
             }
-            else if(closestCropHole == null && !dependencies.inventory.inventorySlot.HasAnySeedsOrCrops)
-            {
-                dependencies.stateManager.SetState(dependencies.stateManager.state_gatherSeeds);
-                yield return null;
-            }
+            yield return new WaitForSeconds(AI_Farmer_Dependencies.timeBetweenPlant);
             if(closestCropHole == null)
             {
                 dependencies.stateManager.SetState(dependencies.stateManager.state_waitForNewWork);
                 yield return null;
             }
-            if(closestCropHole != null && !closestCropHole.hasCropOrSeed)
-            {
-                dependencies.stateManager.SetState(dependencies.stateManager.state_FindGrownCrops);
-                yield return null;
-            }
-            yield return new WaitForSeconds(AI_Farmer_Dependencies.timeBetweenPlant);
             if (dependencies.inventory.inventorySlot.currentHoldingCropOrSeed == null)
                 dependencies.inventory.inventorySlot.currentHoldingCropOrSeed = closestCropHole.cropType;
             else if(dependencies.inventory.inventorySlot.currentHoldingCropOrSeed!= null &&

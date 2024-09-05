@@ -18625,7 +18625,7 @@ PrefabInstance:
         type: 3}
       propertyPath: destinationPoint
       value: 
-      objectReference: {fileID: 6265556665751615902}
+      objectReference: {fileID: 0}
     - target: {fileID: 8081632593832821415, guid: b6a486fd05fa8b849a33d81fea5dcff2,
         type: 3}
       propertyPath: m_Name
@@ -19105,12 +19105,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0861cd6a7eda80458bbe12fd70e5573, type: 3}
---- !u!4 &6265556665751615902 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4673320619002173814, guid: 0d67d38b1499c174094ba7f3f47b4f90,
-    type: 3}
-  m_PrefabInstance: {fileID: 1755778671810293370}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

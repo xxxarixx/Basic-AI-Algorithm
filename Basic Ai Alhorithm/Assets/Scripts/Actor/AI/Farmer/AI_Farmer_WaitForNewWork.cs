@@ -13,11 +13,12 @@ namespace AI.Farmer
             AI_Farmer_Inventory.InventoryItem inventorySlot = dependencies.inventory.inventorySlot;
             while (true)
             {
-                TextPopup(dependencies.transform.position + new Vector3(0f, 10f, 0f), "Waiting for new work...", Color.green, duration: 1f);
-                yield return new WaitForSeconds(3f);
                 int emptySeedHolesCount = CropField_Manager.instance.GetEmptyCropGroundsCount(dependencies.idendity);
-                int fullyGrownSeeds = CropField_Manager.instance.GetAllFullyGrownCropsCount(dependencies.idendity);
-                bool grownCropsSeemsToBeBetterOption = fullyGrownSeeds > emptySeedHolesCount;
+                int fullyGrownCrops = CropField_Manager.instance.GetAllFullyGrownCropsCount(dependencies.idendity);
+                int amountOfFarmersInCropJob = AI_Summary.instance.farmer_Summary.farmers_inCropJob.Count;
+                int amountOfFarmersInSeedJob = AI_Summary.instance.farmer_Summary.farmers_inSeedJob.Count;
+                bool grownCropsSeemsToBeBetterOption = fullyGrownCrops > emptySeedHolesCount && 
+                    (amountOfFarmersInCropJob < amountOfFarmersInSeedJob || emptySeedHolesCount == 0);
                 bool thereIsAnyLeftSeedHoles = emptySeedHolesCount > 0;
                 Debug.Log($"waiting {dependencies.transform.name}:grownCropsBetter:{grownCropsSeemsToBeBetterOption} anyLeftSeedHoles:{thereIsAnyLeftSeedHoles} hasSeedsInInv:{inventorySlot.HasAnySeedsOrCrops}");
                 //if have in inventory any seeds and there are not any left seed holes
@@ -38,6 +39,8 @@ namespace AI.Farmer
                     stateManager.SetState(stateManager.state_gatherSeeds);
                     yield return null;
                 }
+                yield return new WaitForSeconds(3f);
+                TextPopup(dependencies.transform.position + new Vector3(0f, 10f, 0f), "Waiting for new work...", Color.green, duration: 1f);
             }
         }
 

@@ -13,7 +13,7 @@ namespace General.Containers
     {
         public IEnumerator GiveSeedsToFarmer(AI_Farmer_Inventory inventory, Action onComplete)
         {
-            var currentHoldingCropOrSeed = CropDataBase.instance.tomato;
+            var currentHoldingCropOrSeed = CropDataBase.instance.GetRandomCropAndSeed();
             inventory.inventorySlot.ChangeCurrentHoldingSeedOrCrop(currentHoldingCropOrSeed);
             var randAmount = Random.Range(AI_Farmer_Inventory.InventoryItem.maxInventorySize / 2, AI_Farmer_Inventory.InventoryItem.maxInventorySize);
             for (int i = 1; i <= randAmount; i++)

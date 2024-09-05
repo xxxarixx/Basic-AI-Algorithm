@@ -6,7 +6,7 @@ using UnityEngine;
 using static DebugHelper.DebugHelper;
 namespace AI.Farmer
 {
-    public class AI_Farmer_PlantState : AI_Farmer_BaseState
+    public class AI_Farmer_PlantSeedState : AI_Farmer_BaseState
     {
         public override IEnumerator OnEnterState(AI_Farmer_Dependencies dependencies)
         {
@@ -45,9 +45,9 @@ namespace AI.Farmer
             }
             else
             {
-                grownCropsCount = CropField_Manager.instance.GetAllFullyGrownCropsCount(dependencies.idendity);
-                bool grownCropsSeemsToBeBetterOption = grownCropsCount > currentCountOfEmptyCropHoles;
-
+                //grownCropsCount = CropField_Manager.instance.GetAllFullyGrownCropsCount(dependencies.idendity);
+                //bool grownCropsSeemsToBeBetterOption = grownCropsCount > currentCountOfEmptyCropHoles;
+/*
                 //if have in inventory any seeds and there are not any left seed holes
                 if (inventorySlot.HasAnySeedsOrCrops && (!thereIsAnyLeftSeedHoles || grownCropsSeemsToBeBetterOption))
                 {
@@ -64,7 +64,7 @@ namespace AI.Farmer
                     stateManager.SetState(stateManager.state_gatherSeeds);
                 }
                 //wait there is nothing to do
-                else
+                else*/
                 {
                     stateManager.SetState(stateManager.state_waitForNewWork);
                 }
