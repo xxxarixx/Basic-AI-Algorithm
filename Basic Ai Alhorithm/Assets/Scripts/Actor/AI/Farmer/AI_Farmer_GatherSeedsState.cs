@@ -9,6 +9,10 @@ namespace AI.Farmer
 {
     public class AI_Farmer_GatherSeedsState : AI_Farmer_BaseState
     {
+        public override string Name()
+        {
+            return nameof(AI_Farmer_GatherSeedsState);
+        }
         public override IEnumerator OnEnterState(AI_Farmer_Dependencies dependencies)
         {
             TextPopup(dependencies.transform.position + new Vector3(0f, 10f, 0f), "Gathering seeds!", Color.white, duration: 1f);
@@ -16,7 +20,11 @@ namespace AI.Farmer
             Transform transform = dependencies.transform;
             AI_Farmer_StateManager stateManager = dependencies.stateManager;
             Chest closestChest = ChestsManager.instance.FindNearestChest(dependencies.idendity);
-
+            if(closestChest == null)
+            {
+                dependencies.stateManager.SetState(dependencies.stateManager.state_waitForNewWork);
+                yield return null;
+            }
             dependencies.MoveByPathfindingToDestination(closestChest.transform.position,
             OnCompleteMoving: () =>
             {
@@ -25,7 +33,7 @@ namespace AI.Farmer
                 {
                     dependencies.StartCoroutine(closestChest.GiveSeedsToFarmer(dependencies.inventory, onComplete:() =>
                     {
-                        stateManager.SetState(stateManager.state_FindEmptyCropGround);
+                        stateManager.SetState(stateManager.state_FindEmptySeedGround);
                     }));
                 }
                 else

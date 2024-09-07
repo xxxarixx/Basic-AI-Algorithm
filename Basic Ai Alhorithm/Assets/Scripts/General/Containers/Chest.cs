@@ -13,15 +13,15 @@ namespace General.Containers
     {
         public IEnumerator GiveSeedsToFarmer(AI_Farmer_Inventory inventory, Action onComplete)
         {
-            var currentHoldingCropOrSeed = CropDataBase.instance.GetRandomCropAndSeed();
-            inventory.inventorySlot.ChangeCurrentHoldingSeedOrCrop(currentHoldingCropOrSeed);
+            var plantTypeToGive = CropDataBase.instance.GetRandomPlantType();
+            inventory.inventorySlot.ChangePlantType(newPlantType:plantTypeToGive,holdingType:AI_Farmer_Inventory.HoldingType.seeds);
             var randAmount = Random.Range(AI_Farmer_Inventory.InventoryItem.maxInventorySize / 2, AI_Farmer_Inventory.InventoryItem.maxInventorySize);
             for (int i = 1; i <= randAmount; i++)
             {
                 inventory.inventorySlot.AddAmount(1);
                 TextPopup(inventory.transform.position + new Vector3(0f, 10f, 0f),
-                    $"Got {currentHoldingCropOrSeed.name} x{inventory.inventorySlot.amount}",
-                    currentHoldingCropOrSeed.endCropColor,
+                    $"Got {plantTypeToGive.name} x{inventory.inventorySlot.amount}",
+                    plantTypeToGive.endCropColor,
                     duration: 0.4f);
                 yield return new WaitForSeconds(0.5f);
             }

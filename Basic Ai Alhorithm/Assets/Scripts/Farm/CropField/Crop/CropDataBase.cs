@@ -26,7 +26,7 @@ namespace CropField.Crops
                 rice
             });
         }
-        public CropAndSeedBase GetRandomCropAndSeed()
+        public CropAndSeedBase GetRandomPlantType()
         {
             var randNum = Random.Range(0, cropAndSeeds.Count);
             return cropAndSeeds[randNum];

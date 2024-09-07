@@ -37,7 +37,7 @@ namespace CropField
             {
                 allEmptyCropGrounds.AddRange(
                     cropField.cropHoleLocations.FindAll(cropHole => 
-                    !cropHole.hasCropOrSeed && cropHole.CanIAccessThisHole(target))
+                    !cropHole.hasPlant && cropHole.CanIAccessThisHole(target))
                     .Select(x => x.worldLocation).ToArray());
             });
             var orderedList = allEmptyCropGrounds.OrderBy(x => Vector3.Distance(x, target.transform.position));
@@ -52,7 +52,7 @@ namespace CropField
             List<CropHole> allEmptyCropGrounds = new List<CropHole>();
             cropFields.ForEach(cropField =>
             {
-                allEmptyCropGrounds.AddRange(cropField.cropHoleLocations.FindAll(c => !c.hasCropOrSeed && c.CanIAccessThisHole(target)));
+                allEmptyCropGrounds.AddRange(cropField.cropHoleLocations.FindAll(c => !c.hasPlant && c.CanIAccessThisHole(target)));
             });
             var ordered = allEmptyCropGrounds.OrderBy(x => Vector3.Distance(x.worldLocation, target.transform.position));
             currentCount = allEmptyCropGrounds.Count;
@@ -66,7 +66,7 @@ namespace CropField
             List<CropHole> allEmptyCropGrounds = new List<CropHole>();
             cropFields.ForEach(cropField =>
             {
-                allEmptyCropGrounds.AddRange(cropField.cropHoleLocations.FindAll(c => !c.hasCropOrSeed && c.CanIAccessThisHole(target)));
+                allEmptyCropGrounds.AddRange(cropField.cropHoleLocations.FindAll(c => !c.hasPlant && c.CanIAccessThisHole(target)));
             });
             return allEmptyCropGrounds.Count;
         }

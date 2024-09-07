@@ -12,15 +12,23 @@ namespace AI.Farmer
 {
     public class AI_Farmer_FindEmptyCropGroundState : AI_Farmer_BaseState
     {
-       
-       
+
+        public override string Name()
+        {
+            return nameof(AI_Farmer_FindEmptyCropGroundState);
+        }
         public override IEnumerator OnEnterState(AI_Farmer_Dependencies dependencies)
         {
             AI_Farmer_StateManager stateManager = dependencies.stateManager;
             AstarPathfinding pathfinding = dependencies.pathfinding;
             Transform transform = stateManager.transform;
-            var foundedEmptyGround = FindEmptyCropSpace(dependencies);
-            if(foundedEmptyGround == null)
+            if (dependencies.inventory.inventorySlot.HasAnyCrops)
+            {
+                dependencies.stateManager.SetState(dependencies.stateManager.state_deployCrops);
+                yield return null;
+            }
+            var foundedEmptyGround = FindEmptyCropSpace(dependencies, out bool isNull);
+            if(isNull)
             {
                 stateManager.SetState(stateManager.state_waitForNewWork);
                 yield return null;
@@ -44,12 +52,16 @@ namespace AI.Farmer
             
         }
         
-        private Vector3 FindEmptyCropSpace(AI_Farmer_Dependencies dependencies)
+        private Vector3 FindEmptyCropSpace(AI_Farmer_Dependencies dependencies, out bool isNull)
         {
+            isNull = false;
             var transform = dependencies.transform;
             CropHole foundedClosestEmptyCropGround = CropField_Manager.instance.GetClosestEmptyCropGround(dependencies.idendity, out int currentCount);
             if(foundedClosestEmptyCropGround == null)
+            {
+                isNull = true;
                 return default;
+            }
 
             dependencies.idendity.AssignFarmerToHole(foundedClosestEmptyCropGround);
             return foundedClosestEmptyCropGround.worldLocation;

@@ -9,28 +9,27 @@ namespace AI.Farmer
 {
     public class AI_Farmer_DeployCropsState : AI_Farmer_BaseState
     {
+        public override string Name()
+        {
+            return nameof(AI_Farmer_DeployCropsState);
+        }
+
         public override IEnumerator OnEnterState(AI_Farmer_Dependencies dependencies)
         {
             Transform transform = dependencies.transform;
             TextPopup(dependencies.transform.position + new Vector3(0f, 10f, 0f), "Deploying crops!", Color.yellow, duration: 1f);
             Chest closestChest = ChestsManager.instance.FindNearestChest(dependencies.idendity);
+            if (closestChest == null)
+            {
+                dependencies.stateManager.SetState(dependencies.stateManager.state_waitForNewWork);
+                yield return null;
+            }
             dependencies.MoveByPathfindingToDestination(destination: closestChest.transform.position,
                 OnCompleteMoving:() =>
                 {
                     dependencies.StartCoroutine(dependencies.inventory.inventorySlot.DeployCrops(target: transform, onComplete: () =>
                     {
-                        int cropEmptyGroundsCount = CropField_Manager.instance.GetEmptyCropGroundsCount(dependencies.idendity);
-                        int cropFullyGrownCount = CropField_Manager.instance.GetAllFullyGrownCropsCount(dependencies.idendity);
-                        //think what will be more usefull
-                        if (cropFullyGrownCount > cropEmptyGroundsCount)
-                        {
-                            //deployed everything
-                            dependencies.stateManager.SetState(dependencies.stateManager.state_FindGrownCrops);
-                        }
-                        else
-                        {
-                            dependencies.stateManager.SetState(dependencies.stateManager.state_gatherSeeds);
-                        }
+                        dependencies.stateManager.SetState(dependencies.stateManager.state_waitForNewWork);
                     }, popText: true));
                 });
             yield return null;

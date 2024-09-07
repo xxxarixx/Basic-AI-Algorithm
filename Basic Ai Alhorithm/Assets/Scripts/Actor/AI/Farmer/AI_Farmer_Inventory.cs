@@ -16,29 +16,33 @@ namespace AI.Farmer
         [System.Serializable]
         public class InventoryItem
         {
-            public CropAndSeedBase currentHoldingCropOrSeed;
+            public HoldingType holdingType = HoldingType.none;
+            public CropAndSeedBase plantType;
             public int amount { get; private set; } = 0;
             public const int maxInventorySize = 10;
             public bool isFull => amount >= maxInventorySize;
-            public bool HasAnySeedsOrCrops => amount > 0 || currentHoldingCropOrSeed != null;
+            public bool HasAnyPlant => plantType != null && amount > 0;
+            public bool HasAnySeeds => holdingType == HoldingType.seeds && HasAnyPlant;
+            public bool HasAnyCrops => holdingType == HoldingType.crops && HasAnyPlant;
             public CropAndSeedBase GetSeedFromInventory()
             {
-                if (!HasAnySeedsOrCrops)
+                if (!HasAnyPlant)
                     return null;
                 amount--;
                 amount = Mathf.Clamp(amount, 0, maxInventorySize);
-                return currentHoldingCropOrSeed;
+                return plantType;
             }
-            public void ChangeCurrentHoldingSeedOrCrop(CropAndSeedBase newCropOrSeed)
+            public void ChangePlantType(CropAndSeedBase newPlantType, HoldingType holdingType)
             {
-                currentHoldingCropOrSeed = newCropOrSeed;
+                plantType = newPlantType;
+                this.holdingType = holdingType;
             }
             public IEnumerator DeploySeeds(Transform target,Action onComplete, bool popText = true)
             {
                 for (int i = 0; i <= amount; i++)
                 {
-                    if(popText && currentHoldingCropOrSeed != null)
-                        TextPopup(target.position + new Vector3(0f, 10f, 0f), $"Deployed {currentHoldingCropOrSeed.name}!", Color.red, duration: 1f);
+                    if(popText && plantType != null)
+                        TextPopup(target.position + new Vector3(0f, 10f, 0f), $"Deployed {plantType.name}!", Color.red, duration: 1f);
                     AddAmount(-1);
                     yield return new WaitForSeconds(AI_Farmer_Dependencies.timeBetweenDeploy);
                 }
@@ -49,7 +53,7 @@ namespace AI.Farmer
                 for (int i = 0; i <= amount; i++)
                 {
                     if (popText)
-                        TextPopup(target.position + new Vector3(0f, 10f, 0f), $"Deployed {currentHoldingCropOrSeed.name}!", Color.red, duration: 1f);
+                        TextPopup(target.position + new Vector3(0f, 10f, 0f), $"Deployed {plantType.name}!", Color.red, duration: 1f);
                     AddAmount(-1);
                     yield return new WaitForSeconds(AI_Farmer_Dependencies.timeBetweenDeploy);
                 }
@@ -61,9 +65,15 @@ namespace AI.Farmer
                 amount = Mathf.Clamp(amount, 0, maxInventorySize);
                 if(amount <= 0)
                 {
-                    ChangeCurrentHoldingSeedOrCrop(null);
+                    ChangePlantType(newPlantType:null,HoldingType.none);
                 }
             }
+        }
+        public enum HoldingType
+        {
+            none,
+            seeds,
+            crops
         }
         public AI_Farmer_Dependencies dependencies { get; private set; }
         ///<summary>

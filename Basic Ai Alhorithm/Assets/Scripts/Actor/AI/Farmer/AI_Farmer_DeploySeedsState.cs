@@ -9,30 +9,29 @@ namespace AI.Farmer
 {
     public class AI_Farmer_DeploySeedsState : AI_Farmer_BaseState
     {
+        public override string Name()
+        {
+            return nameof(AI_Farmer_DeploySeedsState);
+        }
         public override IEnumerator OnEnterState(AI_Farmer_Dependencies dependencies)
         {
             Transform transform = dependencies.transform;
             TextPopup(transform.position + new Vector3(0f, 10f, 0f), "Deploying seeds!", Color.green, duration: 1f);
             Debug.Log("Deploy seeds state");
             Chest closestChest = ChestsManager.instance.FindNearestChest(dependencies.idendity);
+            if(closestChest == null)
+            {
+                dependencies.stateManager.SetState(dependencies.stateManager.state_waitForNewWork);
+                yield return null;
+            }
             dependencies.MoveByPathfindingToDestination(destination: closestChest.transform.position,
                 OnCompleteMoving: () =>
                 {
                     //start deploing
                     dependencies.StartCoroutine(dependencies.inventory.inventorySlot.DeploySeeds(target:transform, onComplete:() =>
                     {
-                        int cropEmptyGroundsCount = CropField_Manager.instance.GetEmptyCropGroundsCount(dependencies.idendity);
-                        int cropFullyGrownCount = CropField_Manager.instance.GetAllFullyGrownCropsCount(dependencies.idendity);
-                        //think what will be more usefull
-                        if(cropFullyGrownCount > cropEmptyGroundsCount)
-                        {
-                            //deployed everything
-                            dependencies.stateManager.SetState(dependencies.stateManager.state_FindGrownCrops);
-                        }
-                        else
-                        {
-                            dependencies.stateManager.SetState(dependencies.stateManager.state_gatherSeeds);
-                        }
+                        dependencies.stateManager.SetState(dependencies.stateManager.state_waitForNewWork);
+
                     },popText:true));
                 });
             yield return null;

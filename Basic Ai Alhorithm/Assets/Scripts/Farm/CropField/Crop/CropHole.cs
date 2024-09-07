@@ -10,7 +10,7 @@ namespace CropField
     public class CropHole
     {
         public readonly Vector3 worldLocation;
-        public CropAndSeedBase cropType;
+        public CropAndSeedBase plantType;
         public MeshRenderer cropRenderer;
         public Actor_Idendity actorIdendity_AssignToThisHole = null;
         public bool thereIsActorAssignedToThisHole 
@@ -21,10 +21,10 @@ namespace CropField
         public bool CanIAccessThisHole(Actor_Idendity idendity)
             => !thereIsActorAssignedToThisHole || 
             IsItMeAssignedToThisHole(idendity);
-        public bool hasCropOrSeed => cropType != null;
+        public bool hasPlant => plantType != null;
         public bool CanIGatherThisCrop(CropAndSeedBase targetCropToFind) 
-            => hasCropOrSeed && 
-            (cropType == null || targetCropToFind == null && cropType.isFullyGrown || cropType == targetCropToFind && cropType.isFullyGrown);
+            => hasPlant && 
+            (plantType == null || targetCropToFind == null && plantType.isFullyGrown || plantType == targetCropToFind && plantType.isFullyGrown);
         
         public CropHole(Vector3 worldLocation)
         {
@@ -32,18 +32,18 @@ namespace CropField
         }
         public void AddSeedToHole(CropAndSeedBase crop)
         {
-            if (hasCropOrSeed)
+            if (hasPlant)
                 return;
+            this.plantType = crop;
             cropRenderer = CropAndSeedBase.CreateCrop(worldLocation, crop);
-            this.cropType = crop;
         }
-        public void RemoveCropFromCropHole()
+        public void RemovePlantFromCropHole()
         {
-            if (cropType == null || !cropType.isFullyGrown)
+            if (plantType == null || !plantType.isFullyGrown)
                 return;
             cropRenderer.AddComponent<DestroySelf>().StartCounting(durationInSeconds:0.1f);
             cropRenderer = null;
-            cropType = null;
+            plantType = null;
         }
     }
 }

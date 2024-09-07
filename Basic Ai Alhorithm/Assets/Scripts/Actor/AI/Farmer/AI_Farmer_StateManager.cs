@@ -12,7 +12,8 @@ namespace AI.Farmer
         public event Action<AI_Farmer_BaseState> OnChangeState;
         public AI_Farmer_Dependencies dependencies { get; private set; }
         public AI_Farmer_BaseState curState { get; private set; }
-        public AI_Farmer_FindEmptyCropGroundState state_FindEmptyCropGround { get; private set; } = new AI_Farmer_FindEmptyCropGroundState();
+        public string curStateName;
+        public AI_Farmer_FindEmptyCropGroundState state_FindEmptySeedGround { get; private set; } = new AI_Farmer_FindEmptyCropGroundState();
         public AI_Farmer_FindGrownCrop state_FindGrownCrops { get; private set; } = new AI_Farmer_FindGrownCrop();
         public AI_Farmer_PlantSeedState state_plantSeed { get; private set; } = new AI_Farmer_PlantSeedState();
         public AI_Farmer_GatherCropsState state_gatherCrop { get; private set; } = new AI_Farmer_GatherCropsState();
@@ -51,6 +52,7 @@ namespace AI.Farmer
             }
             //call new state OnEnterMethod
             curState = newState;
+            curStateName = newState.Name();
             OnChangeState?.Invoke(newState);
             lastStartState = StartCoroutine(curState.OnEnterState(dependencies:dependencies));
         }
