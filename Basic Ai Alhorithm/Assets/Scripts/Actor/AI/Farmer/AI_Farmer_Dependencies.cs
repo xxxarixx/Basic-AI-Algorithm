@@ -17,9 +17,11 @@ namespace AI.Farmer
         public AI_Farmer_Inventory inventory;
         public AI_Farmer_StateManager stateManager;
         public AI_Farmer_Apperance apperance;
+        public Rigidbody rb;
         public ActorStatistics actorStatistics;
         public AstarPathfinding pathfinding;
         public MeshRenderer mRenderer;
+        public ParticleSystem walkParticle;
         public const float timeBetweenGather = 0.5f;
         public const float timeBetweenDeploy = 0.25f;
         public const float timeBetweenPlant = 0.5f;

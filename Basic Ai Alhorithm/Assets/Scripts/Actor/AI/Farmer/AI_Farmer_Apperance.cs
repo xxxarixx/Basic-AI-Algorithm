@@ -1,5 +1,6 @@
 using AI.Farmer;
 using DG.Tweening;
+using General.Essencial;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,11 +19,29 @@ namespace AI.Farmer
         private void Awake()
         {
             dependencies = GetComponent<AI_Farmer_Dependencies>();
-            
         }
         private void Start()
         {
             SetDefaultColor(dependencies.mRenderer.sharedMaterial.color);
+        }
+        private void FixedUpdate()
+        {
+            if(dependencies.rb.velocity != Vector3.zero)
+            {
+                //is moving
+                if(!dependencies.walkParticle.isPlaying)
+                {
+                    dependencies.walkParticle.Play();
+                }
+            }
+            else
+            {
+                if (!dependencies.walkParticle.isPaused)
+                {
+                    dependencies.walkParticle.Pause();
+                    dependencies.walkParticle.Clear();
+                }
+            }
         }
         public void SetDefaultColor(Color color)
         {

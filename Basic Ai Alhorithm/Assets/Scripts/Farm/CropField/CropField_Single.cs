@@ -15,6 +15,13 @@ namespace CropField
             cropHoleLocations = new List<CropHole>();
             if (potencialCropHoleLocations.Count == 0)
                 FindPotencialLocations();
+            foreach (var cropHoleLocation in potencialCropHoleLocations)
+            {
+                if (cropHoleLocation.TryGetComponent(out MeshRenderer meshRenderer))
+                {
+                    meshRenderer.enabled = false;
+                }
+            }
             cropHolePopulationRange.Clamp(new Vector2Int(1,1), new Vector2Int(potencialCropHoleLocations.Count, potencialCropHoleLocations.Count));
             int amountOfPlantPlaces = Random.Range(cropHolePopulationRange.x, cropHolePopulationRange.y);
             for (int i = 0; i < amountOfPlantPlaces; i++)
@@ -25,6 +32,10 @@ namespace CropField
                     Transform rand = potencialCropHoleLocations[Random.Range(0, potencialCropHoleLocations.Count)];
                     if (!cropHoleLocations.Exists(x => x.worldLocation == rand.position))
                     {
+                        if(rand.TryGetComponent(out MeshRenderer meshRenderer))
+                        {
+                            meshRenderer.enabled = true;
+                        }
                         cropHoleLocations.Add(new CropHole(rand.position));
                         break;
                     }

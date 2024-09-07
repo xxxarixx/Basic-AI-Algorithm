@@ -17,6 +17,7 @@ namespace CropField.Crops
         public Color endCropColor;
         public Vector3 startSize;
         public Vector3 endSize;
+        public Vector3 endPositionOffset;
         public void SetupCrop(MeshRenderer renderer)
         {
             renderer.material.color = startCropColor;
@@ -27,10 +28,18 @@ namespace CropField.Crops
             renderer.transform.DOScale(endValue: endSizeWithRandomFactor, duration: growTimeWithRandomFactor);
             renderer.material.DOColor(endValue: endCropColor, duration: growTimeWithRandomFactor).OnComplete(() =>
             {
+                AnimateEndGrowing(endSizeWithRandomFactor, renderer);
                 isGrowing = false;
                 OnEndedGrowing?.Invoke();
             });
-            
+            renderer.transform.DOLocalMove(renderer.transform.position + endPositionOffset, duration: growTimeWithRandomFactor);
+        }
+        private void AnimateEndGrowing(Vector3 endSizeWithRandomFactor, MeshRenderer renderer)
+        {
+            renderer.transform.localScale = new Vector3(endSizeWithRandomFactor.x + endSizeWithRandomFactor.x / 2, endSizeWithRandomFactor.y, endSizeWithRandomFactor.z - endSizeWithRandomFactor.z / 2);
+            renderer.transform.DOScale(endSizeWithRandomFactor, duration: 0.3f).SetUpdate(isIndependentUpdate: true);
+            renderer.material.color = Color.white;
+            renderer.material.DOColor(endCropColor, duration: 0.3f).SetUpdate(isIndependentUpdate: true);
         }
         public void OnHarvested(CropHole cropHole)
         {
