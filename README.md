@@ -1,6 +1,8 @@
 # Farmer Simulation <br>
 ## Project Overview  <br>
-<img src="ReadmeResources/FullScreenShot.jpg" width=50%>
+
+https://github.com/user-attachments/assets/ef3d5b18-302a-4828-b42a-6c4541669558
+
 This project aimed to demonstrate the concept of complexity in simplicity and scalability. <br>
 It showcases my ability to create efficient and adaptable code, even for complex projects. <br>
 
@@ -53,3 +55,5 @@ Custom Features: A* pathfinding, camera controls, multiple farmer AI, UI <br>
 
 ####  Future Plans: <br>
 Add new types of plants <br>
+
+<img src="ReadmeResources/FullScreenShot.jpg" width=50%>
