@@ -53,7 +53,9 @@ Linear:__________________________Bezier curve:<br>
 Packages: URP, DOTween, GridBox Prototype Materials, TextMeshPro <br>
 Custom Features: A* pathfinding, camera controls, multiple farmer AI, UI <br>
 
-####  Future Plans: <br>
-Add new types of plants <br>
-
+####  Future Plans if i had time: <br>
+* Add new types of plants <br>
+* Support projection on rotated obstacles <br>
+* More types of Actors, like explorators or builders that would build new houses/cropfields/remove some obstacles <br>
+* Seperate chests to give and collect only one type of plant/crop/seed <br>
 <img src="ReadmeResources/FullScreenShot.jpg" width=50%>
