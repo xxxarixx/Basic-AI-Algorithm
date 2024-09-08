@@ -9,6 +9,9 @@ using Random = UnityEngine.Random;
 
 namespace General.Containers
 {
+    /// <summary>
+    /// Used to give player plant/seed or deploy plant/seed/crop, could be used to give player specific plant
+    /// </summary>
     public class Chest : MonoBehaviour
     {
         public IEnumerator GiveSeedsToFarmer(AI_Farmer_Inventory inventory, Action onComplete)

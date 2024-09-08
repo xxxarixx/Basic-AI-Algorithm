@@ -11,6 +11,9 @@ using Random = UnityEngine.Random;
 
 namespace AI.Farmer
 {
+    /// <summary>
+    /// Core of AI Farmer, contains every dependencie that AI Farmer uses, has also helpfull moving functions
+    /// </summary>
     [RequireComponent(typeof(Actor_Idendity))]
     public class AI_Farmer_Dependencies : MonoBehaviour
     {

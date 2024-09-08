@@ -5,6 +5,9 @@ using UnityEngine;
 using static DebugHelper.DebugHelper;
 namespace AI.Farmer
 {
+    /// <summary>
+    /// Responsible for: thinking what will be best next state based on job popularity, amount of fully grown crops, amount of empty seed holes
+    /// </summary>
     public class AI_Farmer_WaitForNewWork : AI_Farmer_BaseState
     {
         public override Job GetMyJob()

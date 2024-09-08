@@ -6,6 +6,9 @@ using UnityEngine.UI;
 using DG.Tweening;
 namespace General.UI.AI
 {
+    /// <summary>
+    /// UI visualization of AI_Summary.cs
+    /// </summary>
     public class UI_AISummary_Visualizer : MonoBehaviour
     {
         [SerializeField] private Slider seedJobVisualizer;

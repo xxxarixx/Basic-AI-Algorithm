@@ -4,6 +4,9 @@ using System.Linq;
 using UnityEngine;
 namespace CropField.Crops
 {
+    /// <summary>
+    /// Contains all plant types that exists in game
+    /// </summary>
     [DefaultExecutionOrder(-1)]
     public class PlantDataBase : MonoBehaviour
     {

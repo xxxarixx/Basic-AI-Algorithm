@@ -7,6 +7,9 @@ using UnityEngine;
 using static DebugHelper.DebugHelper;
 namespace AI.Farmer
 {
+    /// <summary>
+    /// Responsible for: move to closest chest and deploying crops
+    /// </summary>
     public class AI_Farmer_DeployCropsState : AI_Farmer_BaseState
     {
         public override Job GetMyJob()

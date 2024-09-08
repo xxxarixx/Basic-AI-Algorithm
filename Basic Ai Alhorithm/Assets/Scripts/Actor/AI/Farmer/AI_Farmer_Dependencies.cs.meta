@@ -3,7 +3,15 @@ guid: 461a073dd4bce174a8ee1f4be489ad76
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - inventory: {instanceID: 0}
+  - stateManager: {instanceID: 0}
+  - apperance: {instanceID: 0}
+  - rb: {instanceID: 0}
+  - actorStatistics: {fileID: 11400000, guid: d3f6cdc1c0ab99d4da824db18699b917, type: 2}
+  - pathfinding: {instanceID: 0}
+  - mRenderer: {instanceID: 0}
+  - walkParticle: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

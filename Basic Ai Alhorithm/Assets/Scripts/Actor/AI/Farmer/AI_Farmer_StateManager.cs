@@ -6,6 +6,9 @@ using UnityEngine;
 using UnityEngine.Assertions.Must;
 namespace AI.Farmer
 {
+    /// <summary>
+    /// Ai farmer state machine invoker with ai farmer state database
+    /// </summary>
     [RequireComponent(typeof(AI_Farmer_Dependencies))]
     public class AI_Farmer_StateManager : MonoBehaviour
     {

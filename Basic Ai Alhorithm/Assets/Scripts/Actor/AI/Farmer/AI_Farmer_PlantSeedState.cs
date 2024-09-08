@@ -6,6 +6,9 @@ using UnityEngine;
 using static DebugHelper.DebugHelper;
 namespace AI.Farmer
 {
+    /// <summary>
+    /// Responsible for: when is on top of empty ground, plant seed
+    /// </summary>
     public class AI_Farmer_PlantSeedState : AI_Farmer_BaseState
     {
         public override Job GetMyJob()

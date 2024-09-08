@@ -5,6 +5,9 @@ using UnityEngine;
 using static DebugHelper.DebugHelper;
 namespace AI.Farmer
 {
+    /// <summary>
+    /// Responsible for: when is on top of fully growned crop/plant, gather it!
+    /// </summary>
     public class AI_Farmer_GatherCropsState : AI_Farmer_BaseState
     {
         public override Job GetMyJob()

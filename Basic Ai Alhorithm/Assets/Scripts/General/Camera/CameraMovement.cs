@@ -8,6 +8,9 @@ using UnityEngine;
 using static General.InputHandler;
 namespace General
 {
+    /// <summary>
+    /// Camera movement and zoom with ability to handle ortographic and perspective camera
+    /// </summary>
     [RequireComponent(typeof(Camera))]
     public class CameraMovement : MonoBehaviour
     {

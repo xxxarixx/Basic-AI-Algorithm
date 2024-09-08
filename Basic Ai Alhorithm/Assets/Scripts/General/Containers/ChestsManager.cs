@@ -5,6 +5,9 @@ using UnityEngine;
 using Actor;
 namespace General.Containers
 {
+    /// <summary>
+    /// Contains database of all chests in game
+    /// </summary>
     [DefaultExecutionOrder(-1)]
     public class ChestsManager : MonoBehaviour
     {

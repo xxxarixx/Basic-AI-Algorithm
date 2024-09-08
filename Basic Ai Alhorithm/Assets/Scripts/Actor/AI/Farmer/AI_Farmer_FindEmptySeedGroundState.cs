@@ -10,6 +10,9 @@ using static DebugHelper.DebugHelper;
 using Random = UnityEngine.Random;
 namespace AI.Farmer
 {
+    /// <summary>
+    /// Responsible for: finding empty seed ground and moving to it
+    /// </summary>
     public class AI_Farmer_FindEmptySeedGroundState : AI_Farmer_BaseState
     {
         public override Job GetMyJob()

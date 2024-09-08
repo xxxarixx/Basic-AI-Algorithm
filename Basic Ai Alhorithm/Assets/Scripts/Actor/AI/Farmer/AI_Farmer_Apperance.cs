@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace AI.Farmer
 {
+    /// <summary>
+    /// AI farmer vfx's and highlights
+    /// </summary>
     [RequireComponent(typeof(AI_Farmer_Dependencies))]
     public class AI_Farmer_Apperance : MonoBehaviour
     {
