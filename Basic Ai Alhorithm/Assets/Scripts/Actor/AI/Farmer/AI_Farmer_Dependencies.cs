@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static DebugHelper.DebugHelper;
+using Actor;
 using Random = UnityEngine.Random;
 
 namespace AI.Farmer
@@ -68,6 +69,25 @@ namespace AI.Farmer
                 OnFailed: () =>
                 {
                     TextPopup(transform.position + new Vector3(0f, 10f, 0f), "Something went wrong with generating path!", Color.red, duration: 1f);
+                });
+        }
+        public void MoveByPathfindingToDestination(Vector3 destination, Action OnCompleteMoving, Action OnFailed)
+        {
+            pathfinding.StartBezierPath(
+                startWorldPosition: transform.position,
+                destinationWorldPosition: destination,
+                OnSuccessGeneratingPath: (List<Vector3> worldPositionPoints) =>
+                {
+                    MoveByPoints(transform, worldPositionPoints,
+                    OnCompleteMoving: () =>
+                    {
+                        OnCompleteMoving?.Invoke();
+                    });
+                },
+                OnFailed: () =>
+                {
+                    TextPopup(transform.position + new Vector3(0f, 10f, 0f), "Something went wrong with generating path!", Color.red, duration: 1f);
+                    OnFailed?.Invoke();
                 });
         }
     }

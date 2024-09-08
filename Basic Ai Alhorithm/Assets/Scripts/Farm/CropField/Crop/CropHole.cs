@@ -3,47 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using CropField.Crops;
 using Unity.VisualScripting;
-using static UnityEngine.GraphicsBuffer;
+using Actor;
+using AI.Farmer;
+using System;
 
 namespace CropField
 {
-    public class CropHole
+    public class CropHole : MonoBehaviour
     {
-        public readonly Vector3 worldLocation;
-        public CropAndSeedBase plantType;
-        public MeshRenderer cropRenderer;
+        public Vector3 worldLocation;
+        public PlantInstance plant = null;
         public Actor_Idendity actorIdendity_AssignToThisHole = null;
         public bool thereIsActorAssignedToThisHole 
             => actorIdendity_AssignToThisHole != null;
+
         public bool IsItMeAssignedToThisHole(Actor_Idendity idendity) 
             => thereIsActorAssignedToThisHole && 
-            actorIdendity_AssignToThisHole == idendity;
+            actorIdendity_AssignToThisHole.actorID.Equals(idendity.actorID);
+
         public bool CanIAccessThisHole(Actor_Idendity idendity)
             => !thereIsActorAssignedToThisHole || 
             IsItMeAssignedToThisHole(idendity);
-        public bool hasPlant => plantType != null;
-        public bool CanIGatherThisCrop(CropAndSeedBase targetCropToFind) 
-            => hasPlant && 
-            (plantType == null || targetCropToFind == null && plantType.isFullyGrown || plantType == targetCropToFind && plantType.isFullyGrown);
+
+        public bool hasPlant => plant != null;
+        public bool CanIGatherThisCrop(PlantBase targetCropToFind) 
+            => hasPlant && plant.isFullyGrown &&
+            (targetCropToFind == null|| plant.plantBase.ID == targetCropToFind.ID);
         
-        public CropHole(Vector3 worldLocation)
-        {
-            this.worldLocation = worldLocation;
-        }
-        public void AddSeedToHole(CropAndSeedBase crop)
+        public void AddSeedToHole(PlantBase crop, AI_Farmer_Inventory inv)
         {
             if (hasPlant)
                 return;
-            this.plantType = crop;
-            cropRenderer = CropAndSeedBase.CreateCrop(worldLocation, crop);
+            inv.inventorySlot.AddAmount(-1);
+            plant = PlantInstance.CreateCrop(worldLocation,crop);
         }
         public void RemovePlantFromCropHole()
         {
-            if (plantType == null || !plantType.isFullyGrown)
+            if (plant == null || !plant.isFullyGrown)
                 return;
-            cropRenderer.AddComponent<DestroySelf>().StartCounting(durationInSeconds:0.1f);
-            cropRenderer = null;
-            plantType = null;
+            plant.RemoveThisPlant();
+            plant = null;
         }
     }
 }

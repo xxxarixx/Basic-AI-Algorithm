@@ -1511,7 +1511,7 @@ GameObject:
   - component: {fileID: 5175900370563778525}
   - component: {fileID: 8843797918056527878}
   m_Layer: 0
-  m_Name: CropDatabase
+  m_Name: PlantDatabase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1541,15 +1541,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8010264817182652167}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7330cb48818dd5d4e8104739726dc85c, type: 3}
+  m_Script: {fileID: 11500000, guid: 137d91c1cc07f2f45ab756e98f6a6cf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tomato: {fileID: 11400000, guid: 8629e85dadcdcea4ea7052b083b5b390, type: 2}
-  cereal: {fileID: 11400000, guid: 76265519d2e52c54b8e232959f47cd72, type: 2}
-  pumpkin: {fileID: 11400000, guid: e03043428feecc34797896e41f622b79, type: 2}
-  potato: {fileID: 11400000, guid: 0dcb9ce52dfec0847bf997e0685f384b, type: 2}
-  rice: {fileID: 11400000, guid: 29a8fa0446bf2504eb58342ccfedd557, type: 2}
-  cropGoPatern: {fileID: 6939885563600264297, guid: 17fc1185eadaef1459af67fce8e2f815,
+  plantGoPatern: {fileID: 6939885563600264297, guid: 17fc1185eadaef1459af67fce8e2f815,
     type: 3}
 --- !u!1 &8189232967770902604
 GameObject:

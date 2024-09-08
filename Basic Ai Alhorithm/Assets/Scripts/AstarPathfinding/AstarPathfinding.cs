@@ -188,7 +188,7 @@ namespace Astar.Brain
             }
             if (openNodesFlag.Count <= 0 && !closedNodesFlag.ContainsKey(destinationNode))
             {
-                Debug.LogError("Something went wrong with generating path, didnt reached destination!!!!");
+                Debug.LogWarning("Something went wrong with generating path, didnt reached destination!!!!");
                 yield return null;
             }
             ///backtrace to get most optimal path

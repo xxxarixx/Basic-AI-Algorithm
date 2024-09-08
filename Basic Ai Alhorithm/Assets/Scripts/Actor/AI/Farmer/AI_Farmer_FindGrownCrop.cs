@@ -7,6 +7,11 @@ namespace AI.Farmer
 {
     public class AI_Farmer_FindGrownCrop : AI_Farmer_BaseState
     {
+        public override Job GetMyJob()
+        {
+            return Job.CropJob;
+        }
+
         public override string Name()
         {
             return nameof(AI_Farmer_FindGrownCrop);
@@ -14,7 +19,14 @@ namespace AI.Farmer
 
         public override IEnumerator OnEnterState(AI_Farmer_Dependencies dependencies)
         {
-            TextPopup(dependencies.transform.position + new Vector3(0f, 10f, 0f), "finding crops!", Color.yellow, duration: 1f);
+            if(dependencies.inventory.inventorySlot.plantType == null)
+            {
+                TextPopup(dependencies.transform.position + new Vector3(0f, 10f, 0f), "Searching for any grown crops", Color.yellow, duration: 1f);
+            }
+            else
+            {
+                TextPopup(dependencies.transform.position + new Vector3(0f, 10f, 0f), $"Searching for {dependencies.inventory.inventorySlot.plantType.name} grown crop", dependencies.inventory.inventorySlot.plantType.endCropColor, duration: 1f);
+            }
             Transform transform = dependencies.transform;
             if(dependencies.inventory.inventorySlot.HasAnySeeds)
             {
@@ -24,29 +36,32 @@ namespace AI.Farmer
             var closestCrop = CropField_Manager.instance.GetClosestFullGrownCrop(dependencies.idendity, dependencies.inventory.inventorySlot.plantType, out int grownCropsCount);
             if (closestCrop == null && grownCropsCount == 0)
             {
-                var allCropsCount = CropField_Manager.instance.GetAllFullyGrownCropsCount(dependencies.idendity);
-                if(allCropsCount > 0) // there is no more my type of plants in map
-                {
-                    dependencies.stateManager.SetState(dependencies.stateManager.state_deployCrops);
-                    yield return null;
-                }
-                else
-                {
-                    //there is no crops left, deploy left crops
-                    dependencies.stateManager.SetState(dependencies.stateManager.state_waitForNewWork);
-                    yield return null;
-                }
+                dependencies.stateManager.SetState(dependencies.stateManager.state_deployCrops);
+                yield return null;
             }
             else
             {
-                dependencies.idendity.AssignFarmerToHole(closestCrop);
+                dependencies.idendity.AssignFarmerToHole(ref closestCrop);
                 //move to closest crop
                 dependencies.MoveByPathfindingToDestination(destination:closestCrop.worldLocation,
-                    OnCompleteMoving:() =>
-                    {
-                        //gather crop
-                        dependencies.stateManager.SetState(dependencies.stateManager.state_gatherCrop);
-                    });
+                OnCompleteMoving:() =>
+                {
+                    //gather crop
+                    dependencies.stateManager.SetState(dependencies.stateManager.state_gatherCrop);
+                },
+                OnFailed:() =>
+                {
+                    dependencies.idendity.RemoveAssignFarmerToHole();
+                    dependencies.stateManager.SetState(dependencies.stateManager.state_waitForNewWork);
+                });
+               /* if (dependencies.idendity.AssignFarmerToHole(closestCrop))
+                {
+                }
+                else
+                {
+                    dependencies.stateManager.SetState(dependencies.stateManager.state_waitForNewWork);
+                    yield return null;
+                }*/
             }
             yield return null;
         }

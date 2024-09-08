@@ -9,5 +9,12 @@ namespace AI.Farmer
         public abstract void OnUpdateState(AI_Farmer_Dependencies dependencies);
         public abstract void OnExitState(AI_Farmer_Dependencies dependencies);
         public abstract string Name();
+        public abstract Job GetMyJob();
+        public enum Job
+        {
+            None,
+            SeedJob,
+            CropJob
+        }
     }
 }

@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07d8283707aa54849b6c1d3c2f7e6800, type: 3}
+  m_Script: {fileID: 11500000, guid: cb12f9ca73ecda1429ea84c43c2dc004, type: 3}
   m_Name: Potato
   m_EditorClassIdentifier: 
   growTimeInS: 30
@@ -17,3 +17,5 @@ MonoBehaviour:
   endCropColor: {r: 0.5566038, g: 0.3243953, b: 0.19691172, a: 1}
   startSize: {x: 0.2, y: 0.2, z: 0.2}
   endSize: {x: 0.7, y: 0.7, z: 0.7}
+  endPositionOffset: {x: 0, y: 0, z: 0}
+  cropGrowEase: 5

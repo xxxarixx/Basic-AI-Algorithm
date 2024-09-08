@@ -17,14 +17,14 @@ namespace AI.Farmer
         public class InventoryItem
         {
             public HoldingType holdingType = HoldingType.none;
-            public CropAndSeedBase plantType;
+            public PlantBase plantType;
             public int amount { get; private set; } = 0;
             public const int maxInventorySize = 10;
             public bool isFull => amount >= maxInventorySize;
             public bool HasAnyPlant => plantType != null && amount > 0;
             public bool HasAnySeeds => holdingType == HoldingType.seeds && HasAnyPlant;
             public bool HasAnyCrops => holdingType == HoldingType.crops && HasAnyPlant;
-            public CropAndSeedBase GetSeedFromInventory()
+            public PlantBase GetSeedFromInventory()
             {
                 if (!HasAnyPlant)
                     return null;
@@ -32,14 +32,14 @@ namespace AI.Farmer
                 amount = Mathf.Clamp(amount, 0, maxInventorySize);
                 return plantType;
             }
-            public void ChangePlantType(CropAndSeedBase newPlantType, HoldingType holdingType)
+            public void ChangePlantType(PlantBase newPlantType, HoldingType holdingType)
             {
                 plantType = newPlantType;
                 this.holdingType = holdingType;
             }
             public IEnumerator DeploySeeds(Transform target,Action onComplete, bool popText = true)
             {
-                for (int i = 0; i <= amount; i++)
+                while (amount > 0)
                 {
                     if(popText && plantType != null)
                         TextPopup(target.position + new Vector3(0f, 10f, 0f), $"Deployed {plantType.name}!", Color.red, duration: 1f);
@@ -50,7 +50,7 @@ namespace AI.Farmer
             }
             public IEnumerator DeployCrops(Transform target, Action onComplete, bool popText = true)
             {
-                for (int i = 0; i <= amount; i++)
+                while (amount > 0)
                 {
                     if (popText)
                         TextPopup(target.position + new Vector3(0f, 10f, 0f), $"Deployed {plantType.name}!", Color.red, duration: 1f);

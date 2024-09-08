@@ -7,6 +7,11 @@ namespace AI.Farmer
 {
     public class AI_Farmer_GatherCropsState : AI_Farmer_BaseState
     {
+        public override Job GetMyJob()
+        {
+            return Job.CropJob;
+        }
+
         public override string Name()
         {
             return nameof(AI_Farmer_GatherCropsState);
@@ -27,16 +32,16 @@ namespace AI.Farmer
                 yield return null;
             }
             if (!inventorySlot.HasAnyPlant) //make sure to if i dont have any crops to assign my crop
-                inventorySlot.ChangePlantType(newPlantType: closestCropHole.plantType, holdingType: AI_Farmer_Inventory.HoldingType.crops);
-            else if (inventorySlot.HasAnyPlant && inventorySlot.plantType != closestCropHole.plantType) // check if founded croptype if corrent to holding one
+                inventorySlot.ChangePlantType(newPlantType: closestCropHole.plant.plantBase, holdingType: AI_Farmer_Inventory.HoldingType.crops);
+            else if (inventorySlot.HasAnyPlant && inventorySlot.plantType != closestCropHole.plant.plantBase) // check if founded croptype if corrent to holding one
             {
                 //something wrong!, wrong type of crop try again find correct one!
                 dependencies.stateManager.SetState(dependencies.stateManager.state_FindGrownCrops);
                 yield return null;
             }
-            TextPopup(dependencies.transform.position + new Vector3(0f, 10f, 0f), $"Gathered {closestCropHole.plantType}", closestCropHole.plantType.endCropColor, duration: 1f);
+            TextPopup(dependencies.transform.position + new Vector3(0f, 10f, 0f), $"Gathered {closestCropHole.plant.name}", closestCropHole.plant.plantBase.endCropColor, duration: 1f);
             inventorySlot.AddAmount(1);
-            closestCropHole.plantType.OnHarvested(closestCropHole);
+            closestCropHole.plant.OnHarvested(closestCropHole);
             closestCropHole.RemovePlantFromCropHole();
             grownCropsCount--;
 

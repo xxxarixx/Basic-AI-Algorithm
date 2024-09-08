@@ -10,12 +10,16 @@ using static DebugHelper.DebugHelper;
 using Random = UnityEngine.Random;
 namespace AI.Farmer
 {
-    public class AI_Farmer_FindEmptyCropGroundState : AI_Farmer_BaseState
+    public class AI_Farmer_FindEmptySeedGroundState : AI_Farmer_BaseState
     {
+        public override Job GetMyJob()
+        {
+            return Job.SeedJob;
+        }
 
         public override string Name()
         {
-            return nameof(AI_Farmer_FindEmptyCropGroundState);
+            return nameof(AI_Farmer_FindEmptySeedGroundState);
         }
         public override IEnumerator OnEnterState(AI_Farmer_Dependencies dependencies)
         {
@@ -33,7 +37,7 @@ namespace AI.Farmer
                 stateManager.SetState(stateManager.state_waitForNewWork);
                 yield return null;
             }
-            TextPopup(transform.position + new Vector3(0f, 10f, 0f), $"Searching for crop holes, founded at:{foundedEmptyGround}", Color.white, duration: 0.5f);
+            TextPopup(transform.position + new Vector3(0f, 10f, 0f), $"Searching for crop holes", Color.white, duration: 0.5f);
             dependencies.MoveByPathfindingToDestination(foundedEmptyGround,
             OnCompleteMoving: () =>
             {
@@ -63,7 +67,11 @@ namespace AI.Farmer
                 return default;
             }
 
-            dependencies.idendity.AssignFarmerToHole(foundedClosestEmptyCropGround);
+            if(!dependencies.idendity.AssignFarmerToHole(ref foundedClosestEmptyCropGround))
+            {
+                isNull = true;
+                return default;
+            }
             return foundedClosestEmptyCropGround.worldLocation;
         }
     }

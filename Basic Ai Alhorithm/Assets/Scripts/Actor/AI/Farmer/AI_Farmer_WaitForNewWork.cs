@@ -7,6 +7,11 @@ namespace AI.Farmer
 {
     public class AI_Farmer_WaitForNewWork : AI_Farmer_BaseState
     {
+        public override Job GetMyJob()
+        {
+            return Job.None;
+        }
+
         public override string Name()
         {
             return nameof(AI_Farmer_WaitForNewWork);

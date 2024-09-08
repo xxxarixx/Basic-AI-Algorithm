@@ -9,6 +9,11 @@ namespace AI.Farmer
 {
     public class AI_Farmer_DeployCropsState : AI_Farmer_BaseState
     {
+        public override Job GetMyJob()
+        {
+            return Job.CropJob;
+        }
+
         public override string Name()
         {
             return nameof(AI_Farmer_DeployCropsState);

@@ -8,6 +8,11 @@ namespace AI.Farmer
 {
     public class AI_Farmer_PlantSeedState : AI_Farmer_BaseState
     {
+        public override Job GetMyJob()
+        {
+            return Job.SeedJob;
+        }
+
         public override string Name()
         {
             return nameof(AI_Farmer_PlantSeedState);
@@ -19,24 +24,25 @@ namespace AI.Farmer
             
             bool thereIsAnyLeftSeedHoles = true;
             yield return new WaitForSeconds(AI_Farmer_Dependencies.timeBetweenPlant);
-            var foundedCropHole = CropField_Manager.instance.GetClosestEmptyCropGround(dependencies.idendity, out int currentCountOfEmptyCropHoles);
+            var foundedCropHole = dependencies.idendity.actorAssignToCropHole;
             dependencies.idendity.RemoveAssignFarmerToHole();
             //if was issue with finding free crop hole and there is already plant in it
-            if (foundedCropHole == null || foundedCropHole.plantType != null || dependencies.inventory.inventorySlot.HasAnyCrops) 
+            if (foundedCropHole == null || foundedCropHole.plant != null || dependencies.inventory.inventorySlot.HasAnyCrops) 
             {
                 stateManager.SetState(stateManager.state_waitForNewWork);
                 yield return null;
             }
-            if (inventorySlot.HasAnySeeds && currentCountOfEmptyCropHoles > 0)
+            var currentCountOfEmptyCropHoles = CropField_Manager.instance.GetEmptyCropGroundsCount(dependencies.idendity);
+            if (inventorySlot.HasAnySeeds)
             {
                 var seed = inventorySlot.GetSeedFromInventory();
                 if(seed != null)
                 {
-                    foundedCropHole.AddSeedToHole(seed);
+                    foundedCropHole.AddSeedToHole(seed,dependencies.inventory);
                     currentCountOfEmptyCropHoles--;
                     TextPopup(dependencies.transform.position + new Vector3(-10f, 10f, 0f),
-                        $"planting seed of {foundedCropHole.plantType.name}, left seeds {inventorySlot.amount} left holes:{currentCountOfEmptyCropHoles - 1}",
-                        foundedCropHole.plantType.startCropColor, 
+                        $"planting seed of {foundedCropHole.plant.plantBase.name}, left seeds {inventorySlot.amount} left holes:{currentCountOfEmptyCropHoles}",
+                        foundedCropHole.plant.plantBase.startCropColor, 
                         duration: 1.5f);
                 }
             }

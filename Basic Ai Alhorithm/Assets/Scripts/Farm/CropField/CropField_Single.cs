@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace CropField
@@ -36,7 +37,9 @@ namespace CropField
                         {
                             meshRenderer.enabled = true;
                         }
-                        cropHoleLocations.Add(new CropHole(rand.position));
+                        var cropHole = rand.AddComponent<CropHole>();
+                        cropHole.worldLocation = rand.position;
+                        cropHoleLocations.Add(cropHole);
                         break;
                     }
                     

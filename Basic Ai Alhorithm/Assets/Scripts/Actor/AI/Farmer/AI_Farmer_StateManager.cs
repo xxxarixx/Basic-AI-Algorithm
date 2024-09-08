@@ -13,7 +13,7 @@ namespace AI.Farmer
         public AI_Farmer_Dependencies dependencies { get; private set; }
         public AI_Farmer_BaseState curState { get; private set; }
         public string curStateName;
-        public AI_Farmer_FindEmptyCropGroundState state_FindEmptySeedGround { get; private set; } = new AI_Farmer_FindEmptyCropGroundState();
+        public AI_Farmer_FindEmptySeedGroundState state_FindEmptySeedGround { get; private set; } = new AI_Farmer_FindEmptySeedGroundState();
         public AI_Farmer_FindGrownCrop state_FindGrownCrops { get; private set; } = new AI_Farmer_FindGrownCrop();
         public AI_Farmer_PlantSeedState state_plantSeed { get; private set; } = new AI_Farmer_PlantSeedState();
         public AI_Farmer_GatherCropsState state_gatherCrop { get; private set; } = new AI_Farmer_GatherCropsState();

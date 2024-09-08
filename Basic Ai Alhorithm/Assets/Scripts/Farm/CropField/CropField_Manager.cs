@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using Actor;
 using static UnityEngine.GraphicsBuffer;
 
 namespace CropField
@@ -72,17 +73,17 @@ namespace CropField
         }
         #endregion
         #region Grown crop
-        public CropHole GetClosestFullGrownCrop(Actor_Idendity target, CropAndSeedBase targetCropToFind, out int count)
+        public CropHole GetClosestFullGrownCrop(Actor_Idendity target, PlantBase targetCropToFind, out int count)
         {
             List<CropHole> cropHolesWithFullyGrownCrop = new List<CropHole>();
             cropFields.ForEach((cropField) =>
             {
                 cropHolesWithFullyGrownCrop.AddRange(cropField.cropHoleLocations.FindAll(c => c.CanIGatherThisCrop(targetCropToFind) && c.CanIAccessThisHole(target)));
             });
-            var ordered = cropHolesWithFullyGrownCrop.OrderBy(x => Vector3.Distance(x.worldLocation, target.transform.position));
             count = cropHolesWithFullyGrownCrop.Count;
             if (count == 0)
                 return null;
+            var ordered = cropHolesWithFullyGrownCrop.OrderBy(x => Vector3.Distance(x.worldLocation, target.transform.position));
             return ordered.First();
         }
         public int GetAllFullyGrownCropsCount(Actor_Idendity target)
